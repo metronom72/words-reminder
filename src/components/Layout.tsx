@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 0,
     position: "relative",
     minHeight: '100vh',
+    paddingTop: '75px',
   },
   link: {
     color: "#000000",
@@ -153,7 +154,8 @@ export const Layout: React.FC<any> = inject("lessons")(
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap>
-              Учим слова
+              {lessons.currentLesson.title} ({lessons.currentLesson.words.length}{" "}
+              ) слов
             </Typography>
           </Toolbar>
         </AppBar>
@@ -188,10 +190,6 @@ export const Layout: React.FC<any> = inject("lessons")(
         </Hidden>
         </nav>
         <Paper variant="outlined" elevation={0} className={classes.content}>
-          <Typography className={classes.header}>
-            {lessons.currentLesson.title} ({lessons.currentLesson.words.length}{" "}
-            ) слов
-          </Typography>
           {children}
         </Paper>
       </div>
