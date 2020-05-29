@@ -9,6 +9,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { inject, observer } from "mobx-react";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import { HelpDescriptionComponent } from "./Help";
 
 const useStyles = makeStyles({
   root: {
@@ -76,43 +77,46 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
     }
 
     return (
-      <div className={classes.root}>
-        <ChevronLeftIcon onClick={previousWord} />
-        <Card className={classes.card} variant="outlined">
-          <CardContent className={classes.cardContent}>
-            <Typography variant="h5" className={classes.text}>
-              {(lessons.targetLanguage === "russian" ||
-                (lessons.targetLanguage === "german" &&
-                  lessons.isTargetVisible)) &&
-                `${lessons.currentWord + 1}. ${
-                  lessons.currentLesson.words[lessons.currentWord].german
-                }`}
-              {lessons.targetLanguage === "german" &&
-                !lessons.isTargetVisible && (
-                  <VisibilityIcon
-                    onClick={() => (lessons.isTargetVisible = true)}
-                  />
-                )}
-            </Typography>
-            <Divider />
-            <Typography variant="h5" className={classes.text}>
-              {(lessons.targetLanguage === "german" ||
-                (lessons.targetLanguage === "russian" &&
-                  lessons.isTargetVisible)) &&
-                `${lessons.currentWord + 1}. ${
-                  lessons.currentLesson.words[lessons.currentWord].russian
-                }`}
-              {lessons.targetLanguage === "russian" &&
-                !lessons.isTargetVisible && (
-                  <VisibilityIcon
-                    onClick={() => (lessons.isTargetVisible = true)}
-                  />
-                )}
-            </Typography>
-          </CardContent>
-        </Card>
-        <ChevronRightIcon onClick={nextWord} />
-      </div>
+      <>
+        <div className={classes.root}>
+          <ChevronLeftIcon onClick={previousWord} />
+          <Card className={classes.card} variant="outlined">
+            <CardContent className={classes.cardContent}>
+              <Typography variant="h5" className={classes.text}>
+                {(lessons.targetLanguage === "russian" ||
+                  (lessons.targetLanguage === "german" &&
+                    lessons.isTargetVisible)) &&
+                  `${lessons.currentWord + 1}. ${
+                    lessons.currentLesson.words[lessons.currentWord].german
+                  }`}
+                {lessons.targetLanguage === "german" &&
+                  !lessons.isTargetVisible && (
+                    <VisibilityIcon
+                      onClick={() => (lessons.isTargetVisible = true)}
+                    />
+                  )}
+              </Typography>
+              <Divider />
+              <Typography variant="h5" className={classes.text}>
+                {(lessons.targetLanguage === "german" ||
+                  (lessons.targetLanguage === "russian" &&
+                    lessons.isTargetVisible)) &&
+                  `${lessons.currentWord + 1}. ${
+                    lessons.currentLesson.words[lessons.currentWord].russian
+                  }`}
+                {lessons.targetLanguage === "russian" &&
+                  !lessons.isTargetVisible && (
+                    <VisibilityIcon
+                      onClick={() => (lessons.isTargetVisible = true)}
+                    />
+                  )}
+              </Typography>
+            </CardContent>
+          </Card>
+          <ChevronRightIcon onClick={nextWord} />
+        </div>
+        <HelpDescriptionComponent />
+      </>
     );
   })
 );

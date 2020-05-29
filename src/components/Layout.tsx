@@ -11,6 +11,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
+import { HelpDescriptionComponent } from "./Help";
 
 const drawerWidth: number = 240;
 
@@ -27,14 +28,17 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    paddingLeft: 0,
+    paddingRight: 0,
+    position: "relative",
   },
   link: {
-    color: '#000000'
+    color: "#000000",
   },
   header: {
-    textAlign: 'center',
-    paddingBottom: '20px',
-    fontSize: '20px',
+    textAlign: "center",
+    paddingBottom: "20px",
+    fontSize: "20px",
   },
 }));
 
@@ -73,8 +77,8 @@ export const Layout: React.FC<any> = inject("lessons")(
         </nav>
         <Paper variant="outlined" elevation={0} className={classes.content}>
           <Typography className={classes.header}>
-            {lessons.currentLesson.title} ({lessons.currentLesson.words.length}{" "})
-            слов
+            {lessons.currentLesson.title} ({lessons.currentLesson.words.length}{" "}
+            ) слов
           </Typography>
           {children}
         </Paper>
