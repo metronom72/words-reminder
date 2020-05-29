@@ -3,7 +3,7 @@ import { ILesson } from "../store/Lessons";
 export default [
   {
     id: "1",
-    title: "5/29/2020",
+    title: "05/29/2020",
     words: [
       { german: "lernen", russian: "Учить" },
       { german: "zehn", russian: "10" },
@@ -22,7 +22,7 @@ export default [
   },
   {
     id: "2",
-    title: "5/30/2020",
+    title: "05/30/2020",
     words: [
       { german: "der Schlosser", russian: "Слесарь" },
       { german: "Klavier spielen", russian: "Играть на пианино" },
@@ -38,7 +38,7 @@ export default [
   },
   {
     id: "3",
-    title: "5/31/2020",
+    title: "05/31/2020",
     words: [
       { german: "Wo ist das?", russian: "Где это?" },
       { german: "achtundzwanzig", russian: "28" },
@@ -60,7 +60,7 @@ export default [
   },
   {
     id: "4",
-    title: "6/1/2020",
+    title: "06/1/2020",
     words: [
       { german: "arbeiten", russian: "Работать" },
       { german: "gehen", russian: "Идти" },
@@ -76,7 +76,7 @@ export default [
   },
   {
     id: "5",
-    title: "6/2/2020",
+    title: "06/2/2020",
     words: [
       { german: "fünfzig", russian: "50" },
       { german: "die Verkäuferin", russian: "Продавец" },
@@ -92,7 +92,7 @@ export default [
   },
   {
     id: "6",
-    title: "6/3/2020",
+    title: "06/3/2020",
     words: [
       { german: "Was sind Sie von Beruf?", russian: "Кто Вы по профессии?" },
       { german: "Gitarre spielen", russian: "Играть на гитаре" },
@@ -108,7 +108,7 @@ export default [
   },
   {
     id: "7",
-    title: "6/4/2020",
+    title: "06/4/2020",
     words: [
       { german: "achtzig", russian: "80" },
       { german: "leben", russian: "Жить" },
@@ -124,7 +124,7 @@ export default [
   },
   {
     id: "8",
-    title: "6/5/2020",
+    title: "06/05/2020",
     words: [
       { german: "trinken", russian: "Пить" },
       { german: "die Direktorin", russian: "Директор" },
@@ -140,7 +140,7 @@ export default [
   },
   {
     id: "9",
-    title: "6/6/2020",
+    title: "06/06/2020",
     words: [
       { german: "tschüs!", russian: "Пока!" },
       { german: "siebzig", russian: "70" },
@@ -156,7 +156,7 @@ export default [
   },
   {
     id: "10",
-    title: "6/7/2020",
+    title: "06/7/2020",
     words: [
       { german: "der Sekretär", russian: "Секретарь" },
       { german: "aber", russian: "Но" },
@@ -172,7 +172,7 @@ export default [
   },
   {
     id: "11",
-    title: "6/8/2020",
+    title: "06/8/2020",
     words: [
       { german: "der Polizist", russian: "Полицейский" },
       { german: "in der Freizeit", russian: "В свободное время" },
@@ -188,7 +188,7 @@ export default [
   },
   {
     id: "12",
-    title: "6/9/2020",
+    title: "06/9/2020",
     words: [
       { german: "die Mechanikerin", russian: "Механик" },
       { german: "vierzig", russian: "40" },
@@ -207,7 +207,7 @@ export default [
   },
   {
     id: "13",
-    title: "6/10/2020",
+    title: "06/10/2020",
     words: [
       { german: "der Lehrer", russian: "Учитель" },
       { german: "Was ist das?", russian: "Что это?" },
@@ -223,7 +223,7 @@ export default [
   },
   {
     id: "14",
-    title: "6/11/2020",
+    title: "06/11/2020",
     words: [
       { german: "siebzehn", russian: "17" },
       { german: "dreißig", russian: "30" },

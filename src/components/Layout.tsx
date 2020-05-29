@@ -9,6 +9,11 @@ import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+import classnames from 'classnames';
+import moment from 'moment';
+import Chip from "@material-ui/core/Chip";
+import EventIcon from '@material-ui/icons/Event';
+import DoneIcon from '@material-ui/icons/Done';
 
 const drawerWidth: number = 240;
 
@@ -31,12 +36,16 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     color: "#000000",
+    textDecoration: 'none',
   },
   header: {
     textAlign: "center",
     paddingBottom: "20px",
     fontSize: "20px",
   },
+  active: {
+    backgroundColor: 'rgba(0,0,0,0.12)'
+  }
 }));
 
 export const Layout: React.FC<any> = inject("lessons")(
@@ -49,6 +58,15 @@ export const Layout: React.FC<any> = inject("lessons")(
         lessons.targetLanguage = "german";
       }
     };
+
+    const isDone = (title: string) => {
+      const today = moment().format("MM/DD/YYYY");
+      if (title === today) return 0
+      //@ts-ignore
+      const diff = moment(title, ["MM/DD/YYYY"]) - moment()
+      if (diff > 0) return -1
+      else return 1
+    }
 
     return (
       <div className={classes.root}>
@@ -64,8 +82,17 @@ export const Layout: React.FC<any> = inject("lessons")(
             {lessons.lessons.map(
               ({ title, id }: { title: string; id: string }) => (
                 <Link key={id} to={`lessons/${id}`} className={classes.link}>
-                  <ListItem button key={id}>
-                    <ListItemText primary={title} />
+                  <ListItem className={classnames({[classes.active]: lessons.currentLesson.id === id})} button key={id}>
+                    <ListItemText primary={<div>{title}{" "}
+                        {isDone(title) >= 0 && <Chip
+                          label={isDone(title) === 0 ? "Сегодня" : isDone(title) > 0 && "Повторить"}
+                          variant="outlined"
+                          size="small"
+                          color="primary"
+                          //@ts-ignore
+                          deleteIcon={isDone(title) === 0 ? <EventIcon /> : isDone(title) > 0 && <DoneIcon />}
+                        />}
+                      </div>} />
                   </ListItem>
                 </Link>
               )
