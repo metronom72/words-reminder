@@ -9,7 +9,7 @@ export default [
       { german: "zehn", russian: "10" },
       { german: "sechsundzwanzig", russian: "26" },
       { german: "die Studentin", russian: "Студентка" },
-      { german: "die Informatekerin", russian: "Программист" },
+      { german: "die Informateker", russian: "Программист" },
       { german: "siebenundzwanzig", russian: "27" },
       {
         german: "einen Spanischkurs besuchen",
