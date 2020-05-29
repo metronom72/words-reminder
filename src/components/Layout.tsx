@@ -58,7 +58,7 @@ export const Layout: React.FC<any> = inject("lessons")(
               <FormControlLabel
                 control={<Switch />}
                 label="Русскйи/Deutsch"
-                onClick={switchLanguage}
+                onChange={switchLanguage}
               />
             </ListItem>
             {lessons.lessons.map(

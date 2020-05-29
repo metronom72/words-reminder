@@ -1,6 +1,5 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 
 export const HelpDescriptionComponent: React.FC<any> = () => {
   return (
@@ -11,9 +10,9 @@ export const HelpDescriptionComponent: React.FC<any> = () => {
       на уроках использвоать данные слова, переводить их из краткосрочной в
       долгосрочную память.
       <br />
-      Достаточно лишь каждый день один раз повторять слова и брато один новый
+      Достаточно лишь каждый день один раз повторять слова и брать один новый
       набор.
-      <Divider />
+      <br />
       Для навигации по словам можно использвоать стрелочки на клавиатуре или
       стрелочки (туда ← → сюда) в интерфейсе приложения.
     </Typography>

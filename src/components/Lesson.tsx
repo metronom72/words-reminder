@@ -45,21 +45,15 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
       if (!lessons.isTargetVisible) {
         lessons.isTargetVisible = true;
       } else {
-        if (lessons.currentLesson.words.length - 1 === lessons.currentWord) {
-          lessons.currentWord = 0;
-          return;
-        }
+        if (lessons.currentLesson.words.length - 1 === lessons.currentWord) return;
         lessons.currentWord = lessons.currentWord + 1;
         lessons.isTargetVisible = false;
       }
     };
 
     const previousWord = () => {
+      if (lessons.currentWord === 0) return
       lessons.isTargetVisible = false;
-      if (lessons.currentWord === 0) {
-        lessons.currentWord = lessons.currentLesson.words.length - 1;
-        return;
-      }
       lessons.currentWord = lessons.currentWord - 1;
     };
 
@@ -79,7 +73,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
     return (
       <>
         <div className={classes.root}>
-          <ChevronLeftIcon onClick={previousWord} />
+          {lessons.currentWord !== 0 && <ChevronLeftIcon onClick={previousWord} />}
           <Card className={classes.card} variant="outlined">
             <CardContent className={classes.cardContent}>
               <Typography variant="h5" className={classes.text}>
@@ -113,7 +107,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
               </Typography>
             </CardContent>
           </Card>
-          <ChevronRightIcon onClick={nextWord} />
+          {lessons.currentLesson.words.length - 1 !== lessons.currentWord && <ChevronRightIcon onClick={nextWord} />}
         </div>
         <HelpDescriptionComponent />
       </>
