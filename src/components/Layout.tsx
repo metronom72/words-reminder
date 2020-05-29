@@ -28,6 +28,14 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  link: {
+    color: '#000000'
+  },
+  header: {
+    textAlign: 'center',
+    paddingBottom: '20px',
+    fontSize: '20px',
+  },
 }));
 
 export const Layout: React.FC<any> = inject("lessons")(
@@ -54,7 +62,7 @@ export const Layout: React.FC<any> = inject("lessons")(
             </ListItem>
             {lessons.lessons.map(
               ({ title, id }: { title: string; id: string }) => (
-                <Link key={id} to={`lessons/${id}`}>
+                <Link key={id} to={`lessons/${id}`} className={classes.link}>
                   <ListItem button key={id}>
                     <ListItemText primary={title} />
                   </ListItem>
@@ -64,8 +72,8 @@ export const Layout: React.FC<any> = inject("lessons")(
           </List>
         </nav>
         <Paper variant="outlined" elevation={0} className={classes.content}>
-          <Typography variant="h5">
-            {lessons.currentLesson.title} {lessons.currentLesson.words.length}{" "}
+          <Typography className={classes.header}>
+            {lessons.currentLesson.title} ({lessons.currentLesson.words.length}{" "})
             слов
           </Typography>
           {children}
