@@ -7,11 +7,8 @@ import { Link } from "@reach/router";
 import { inject, observer } from "mobx-react";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
-import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
-import { HelpDescriptionComponent } from "./Help";
 
 const drawerWidth: number = 240;
 
