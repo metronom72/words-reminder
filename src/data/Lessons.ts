@@ -1,5 +1,3 @@
-import { ILesson } from "../store/Lessons";
-
 export default [
   {
     id: 1,
