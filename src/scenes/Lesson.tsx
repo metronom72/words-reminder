@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, useMatch, useLocation } from "@reach/router";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,6 +10,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { inject, observer } from "mobx-react";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { HelpDescriptionComponent } from "../components/Help";
+import { ILesson } from "../store/Lessons";
 
 const useStyles = makeStyles({
   root: {
@@ -38,6 +39,8 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
 )(
   observer(({ lessons }) => {
     const classes = useStyles();
+    const location = useLocation();
+    const match = useMatch(location.pathname);
 
     const [isInit, init] = React.useState(false);
 
@@ -78,6 +81,11 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
 
     if (!isInit) {
       window.onkeydown = handleArrowKeyboard;
+      if (match) {
+        const paths = match.uri.split('/')
+        const lesson = lessons.lessons.find((lesson: ILesson) => lesson.id.toString() === paths[2])
+        if (lesson) lessons.currentLesson = lesson;
+      }
       init(true);
     }
 

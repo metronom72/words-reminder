@@ -22,6 +22,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Divider from "@material-ui/core/Divider";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
+import { ILesson } from "../store/Lessons";
 
 const drawerWidth: number = 240;
 
@@ -120,7 +121,7 @@ export const Layout: React.FC<any> = inject("lessons")(
           </ListItem>
           {lessons.lessons.map(
             ({ title, id }: { title: string; id: string }) => (
-              <Link key={id} to={`lessons/${id}`} className={classes.link}>
+              <Link onClick={() => lessons.currentLesson = lessons.lessons.find((lesson: ILesson) => lesson.id.toString() === id.toString())} key={id} to={`lessons/${id}`} className={classes.link}>
                 <ListItem
                   className={classnames({
                     [classes.active]: lessons.currentLesson.id === id,

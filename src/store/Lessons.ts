@@ -22,18 +22,5 @@ export class LessonsStore {
   constructor(history: any) {
     this.lessons = lessons as any;
     this.currentLesson = lessons[0];
-    //@ts-ignore
-    history.listen(({ action, location }) => {
-      if (action === "PUSH" && /^\/lessons\/\d+$/.test(location.pathname)) {
-        const lessonId = location.pathname.split("/")[2];
-        const lesson = this.lessons.find(
-          (lesson: ILesson) => lesson.id === lessonId
-        );
-        if (lesson) {
-          this.currentLesson = lesson;
-          this.currentWord = 0;
-        }
-      }
-    });
   }
 }
