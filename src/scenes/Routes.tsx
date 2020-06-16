@@ -1,6 +1,6 @@
 import React from "react";
 import { Router, createHistory, LocationProvider } from "@reach/router";
-import { LessonComponent } from "../components/Lesson";
+import { LessonComponent } from "./Lesson";
 import { Layout } from "../components/Layout";
 import { Provider } from "mobx-react";
 import { LessonsStore } from "../store/Lessons";

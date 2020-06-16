@@ -9,7 +9,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { inject, observer } from "mobx-react";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import { HelpDescriptionComponent } from "./Help";
+import { HelpDescriptionComponent } from "../components/Help";
 
 const useStyles = makeStyles({
   root: {
@@ -45,14 +45,25 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
       if (!lessons.isTargetVisible) {
         lessons.isTargetVisible = true;
       } else {
-        if (lessons.currentLesson.words.length - 1 === lessons.currentWord) return;
+        if (lessons.currentLesson.words.length - 1 === lessons.currentWord) {
+          if (lessons.targetLanguage === "russian") {
+            lessons.targetLanguage = "german";
+            lessons.currentWord = 0;
+            lessons.isTargetVisible = false;
+          } else {
+            lessons.targetLanguage = "russian";
+            lessons.currentWord = 0;
+            lessons.isTargetVisible = false;
+          }
+          return;
+        }
         lessons.currentWord = lessons.currentWord + 1;
         lessons.isTargetVisible = false;
       }
     };
 
     const previousWord = () => {
-      if (lessons.currentWord === 0) return
+      if (lessons.currentWord === 0) return;
       lessons.isTargetVisible = false;
       lessons.currentWord = lessons.currentWord - 1;
     };
@@ -73,7 +84,9 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
     return (
       <>
         <div className={classes.root}>
-          {lessons.currentWord !== 0 && <ChevronLeftIcon onClick={previousWord} />}
+          {lessons.currentWord !== 0 && (
+            <ChevronLeftIcon onClick={previousWord} />
+          )}
           <Card className={classes.card} variant="outlined">
             <CardContent className={classes.cardContent}>
               <Typography variant="h5" className={classes.text}>
@@ -107,7 +120,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
               </Typography>
             </CardContent>
           </Card>
-          {lessons.currentLesson.words.length - 1 !== lessons.currentWord && <ChevronRightIcon onClick={nextWord} />}
+          <ChevronRightIcon onClick={nextWord} />
         </div>
         <HelpDescriptionComponent />
       </>

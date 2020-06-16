@@ -9,16 +9,16 @@ import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import classnames from 'classnames';
-import moment from 'moment';
+import classnames from "classnames";
+import moment from "moment";
 import Chip from "@material-ui/core/Chip";
-import EventIcon from '@material-ui/icons/Event';
-import DoneIcon from '@material-ui/icons/Done';
+import EventIcon from "@material-ui/icons/Event";
+import DoneIcon from "@material-ui/icons/Done";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from "@material-ui/icons/Menu";
 import Divider from "@material-ui/core/Divider";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
@@ -41,12 +41,12 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 0,
     paddingRight: 0,
     position: "relative",
-    minHeight: '100vh',
-    paddingTop: '75px',
+    minHeight: "100vh",
+    paddingTop: "75px",
   },
   link: {
     color: "#000000",
-    textDecoration: 'none',
+    textDecoration: "none",
   },
   header: {
     textAlign: "center",
@@ -54,18 +54,18 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "20px",
   },
   active: {
-    backgroundColor: 'rgba(0,0,0,0.12)'
+    backgroundColor: "rgba(0,0,0,0.12)",
   },
   appBar: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
     },
   },
   toolbar: theme.mixins.toolbar,
@@ -79,15 +79,16 @@ export const Layout: React.FC<any> = inject("lessons")(
     const classes = useStyles();
 
     const theme = useTheme();
-    
-    const container = window !== undefined ? () => window.document.body : undefined;
+
+    const container =
+      window !== undefined ? () => window.document.body : undefined;
 
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
     };
-    
+
     const switchLanguage = () => {
       if (lessons.targetLanguage === "german") {
         lessons.targetLanguage = "russian";
@@ -98,12 +99,12 @@ export const Layout: React.FC<any> = inject("lessons")(
 
     const isDone = (title: string) => {
       const today = moment().format("MM/DD/YYYY");
-      if (title === today) return 0
+      if (title === today) return 0;
       //@ts-ignore
-      const diff = moment(title, ["MM/DD/YYYY"]) - moment()
-      if (diff > 0) return -1
-      else return 1
-    }
+      const diff = moment(title, ["MM/DD/YYYY"]) - moment();
+      if (diff > 0) return -1;
+      else return 1;
+    };
 
     const drawer = (
       <div>
@@ -120,17 +121,40 @@ export const Layout: React.FC<any> = inject("lessons")(
           {lessons.lessons.map(
             ({ title, id }: { title: string; id: string }) => (
               <Link key={id} to={`lessons/${id}`} className={classes.link}>
-                <ListItem className={classnames({[classes.active]: lessons.currentLesson.id === id})} button key={id}>
-                  <ListItemText primary={<div>{title}{" "}
-                      {isDone(title) >= 0 && <Chip
-                        label={isDone(title) === 0 ? "Сегодня" : isDone(title) > 0 && "Повторить"}
-                        variant="outlined"
-                        size="small"
-                        color="primary"
-                        //@ts-ignore
-                        deleteIcon={isDone(title) === 0 ? <EventIcon /> : isDone(title) > 0 && <DoneIcon />}
-                      />}
-                    </div>} />
+                <ListItem
+                  className={classnames({
+                    [classes.active]: lessons.currentLesson.id === id,
+                  })}
+                  button
+                  key={id}
+                >
+                  <ListItemText
+                    primary={
+                      <div>
+                        {title}{" "}
+                        {isDone(title) >= 0 && (
+                          <Chip
+                            label={
+                              isDone(title) === 0
+                                ? "Сегодня"
+                                : isDone(title) > 0 && "Повторить"
+                            }
+                            variant="outlined"
+                            size="small"
+                            color="primary"
+                            //@ts-ignore
+                            deleteIcon={
+                              isDone(title) === 0 ? (
+                                <EventIcon />
+                              ) : (
+                                isDone(title) > 0 && <DoneIcon />
+                              )
+                            }
+                          />
+                        )}
+                      </div>
+                    }
+                  />
                 </ListItem>
               </Link>
             )
@@ -154,8 +178,8 @@ export const Layout: React.FC<any> = inject("lessons")(
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap>
-              {lessons.currentLesson.title} ({lessons.currentLesson.words.length}{" "}
-              ) слов
+              {lessons.currentLesson.title} (
+              {lessons.currentLesson.words.length} ) слов
             </Typography>
           </Toolbar>
         </AppBar>
@@ -164,7 +188,7 @@ export const Layout: React.FC<any> = inject("lessons")(
             <Drawer
               container={container}
               variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              anchor={theme.direction === "rtl" ? "right" : "left"}
               open={mobileOpen}
               onClose={handleDrawerToggle}
               classes={{
@@ -177,17 +201,17 @@ export const Layout: React.FC<any> = inject("lessons")(
               {drawer}
             </Drawer>
           </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
         </nav>
         <Paper variant="outlined" elevation={0} className={classes.content}>
           {children}

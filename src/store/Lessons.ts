@@ -20,7 +20,7 @@ export class LessonsStore {
   @observable public targetLanguage: string = "russian";
   @observable public isTargetVisible: boolean = false;
   constructor(history: any) {
-    this.lessons = lessons;
+    this.lessons = lessons as any;
     this.currentLesson = lessons[0];
     //@ts-ignore
     history.listen(({ action, location }) => {
