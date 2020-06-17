@@ -64,7 +64,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
         sendEvent(GAActions.NEXT_WORD, {
           current: lessons.currentLesson.words[lessons.currentWord],
         });
-        if (lessons.targetLanguage === "deutsch" && isWordLast)
+        if (lessons.targetLanguage === LANGUAGES.DEUTSCH && isWordLast)
           sendEvent(GAActions.CARD_FINISHED, {
             current: lessons.currentLesson.id,
           });
