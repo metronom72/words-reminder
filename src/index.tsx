@@ -2,6 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import { LessonsRouter } from "./scenes/Routes";
+import { init } from "./config/GoogleAnalytics";
+
+init();
 
 ReactDOM.render(
   <React.StrictMode>

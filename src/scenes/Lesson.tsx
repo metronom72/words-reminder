@@ -11,6 +11,8 @@ import { inject, observer } from "mobx-react";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { HelpDescriptionComponent } from "../components/Help";
 import { ILesson } from "../store/Lessons";
+import { GAActions } from "../config/Constants";
+import { sendEvent } from "../config/GoogleAnalytics";
 
 const useStyles = makeStyles({
   root: {
@@ -46,22 +48,20 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
 
     const nextWord = () => {
       if (!lessons.isTargetVisible) {
-        lessons.isTargetVisible = true;
+        showTranslation()
       } else {
-        if (lessons.currentLesson.words.length - 1 === lessons.currentWord) {
-          if (lessons.targetLanguage === "russian") {
-            lessons.targetLanguage = "german";
-            lessons.currentWord = 0;
-            lessons.isTargetVisible = false;
-          } else {
-            lessons.targetLanguage = "russian";
-            lessons.currentWord = 0;
-            lessons.isTargetVisible = false;
-          }
+        const isWordLast = lessons.currentLesson.words.length - 1 === lessons.currentWord
+        if (isWordLast) {
+          lessons.switchLanguage()
+          
+          lessons.currentWord = 0;
+          lessons.isTargetVisible = false;
           return;
         }
         lessons.currentWord = lessons.currentWord + 1;
         lessons.isTargetVisible = false;
+        sendEvent(GAActions.NEXT_WORD, { current: lessons.currentLesson.words[lessons.currentWord] })
+        if (lessons.targetLanguage === 'russian' && isWordLast)sendEvent(GAActions.CARD_FINISHED, { current: lessons.currentLesson.id })
       }
     };
 
@@ -69,6 +69,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
       if (lessons.currentWord === 0) return;
       lessons.isTargetVisible = false;
       lessons.currentWord = lessons.currentWord - 1;
+      sendEvent(GAActions.PREVIOUS_WORD, { current: lessons.currentLesson.words[lessons.currentWord] })
     };
 
     const handleArrowKeyboard = (event: any) => {
@@ -79,12 +80,18 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
       }
     };
 
+    const showTranslation = () => {
+      lessons.isTargetVisible = true
+      sendEvent(GAActions.SHOW_TRANSLATION, {language: lessons.targetLanguage})
+    }
+
     if (!isInit) {
       window.onkeydown = handleArrowKeyboard;
       if (match) {
         const paths = match.uri.split('/')
         const lesson = lessons.lessons.find((lesson: ILesson) => lesson.id.toString() === paths[2])
         if (lesson) lessons.currentLesson = lesson;
+        sendEvent(GAActions.CARD_OPENED)
       }
       init(true);
     }
@@ -107,7 +114,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                 {lessons.targetLanguage === "german" &&
                   !lessons.isTargetVisible && (
                     <VisibilityIcon
-                      onClick={() => (lessons.isTargetVisible = true)}
+                      onClick={showTranslation}
                     />
                   )}
               </Typography>
@@ -122,7 +129,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                 {lessons.targetLanguage === "russian" &&
                   !lessons.isTargetVisible && (
                     <VisibilityIcon
-                      onClick={() => (lessons.isTargetVisible = true)}
+                      onClick={showTranslation}
                     />
                   )}
               </Typography>

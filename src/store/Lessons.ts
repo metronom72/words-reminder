@@ -1,5 +1,7 @@
 import lessons from "../data/Lessons";
 import { observable } from "mobx";
+import { sendEvent } from "../config/GoogleAnalytics";
+import { GAActions } from "../config/Constants";
 
 export interface IWord {
   russian: string;
@@ -22,5 +24,11 @@ export class LessonsStore {
   constructor(history: any) {
     this.lessons = lessons as any;
     this.currentLesson = lessons[0];
+  }
+  switchLanguage = () => {
+    const previousLanguage = this.targetLanguage;
+    const currentLanguage = this.targetLanguage === 'russian' ? 'german' : 'russian';
+    sendEvent(GAActions.NEXT_WORD, { current: this.targetLanguage, previous: previousLanguage })
+    this.targetLanguage = currentLanguage;
   }
 }

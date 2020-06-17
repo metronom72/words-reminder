@@ -23,6 +23,8 @@ import Divider from "@material-ui/core/Divider";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
 import { ILesson } from "../store/Lessons";
+import { sendEvent } from "../config/GoogleAnalytics";
+import { GAActions } from "../config/Constants";
 
 const drawerWidth: number = 240;
 
@@ -91,12 +93,15 @@ export const Layout: React.FC<any> = inject("lessons")(
     };
 
     const switchLanguage = () => {
-      if (lessons.targetLanguage === "german") {
-        lessons.targetLanguage = "russian";
-      } else if (lessons.targetLanguage === "russian") {
-        lessons.targetLanguage = "german";
-      }
+      lessons.switchLanguage();
     };
+
+    const nextCard = (id: string) => () => {
+      sendEvent(GAActions.NEXT_CARD)
+      const nextLesson = lessons.lessons.find((lesson: ILesson) => lesson.id.toString() === id.toString())
+      lessons.currentLesson = nextLesson;
+      setMobileOpen(false);
+    }
 
     const isDone = (title: string) => {
       const today = moment().format("MM/DD/YYYY");
@@ -121,7 +126,7 @@ export const Layout: React.FC<any> = inject("lessons")(
           </ListItem>
           {lessons.lessons.map(
             ({ title, id }: { title: string; id: string }) => (
-              <Link onClick={() => lessons.currentLesson = lessons.lessons.find((lesson: ILesson) => lesson.id.toString() === id.toString())} key={id} to={`lessons/${id}`} className={classes.link}>
+              <Link onClick={nextCard(id)} key={id} to={`lessons/${id}`} className={classes.link}>
                 <ListItem
                   className={classnames({
                     [classes.active]: lessons.currentLesson.id === id,
