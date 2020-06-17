@@ -8,3 +8,8 @@ export enum GAActions {
   CARD_OPENED = "card_opened",
   PREVIOUS_WORD = "previous_word",
 }
+
+export enum LANGUAGES {
+  RUSSIAN = 'russian',
+  DEUTSCH = 'deutsch'
+}

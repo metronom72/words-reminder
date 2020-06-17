@@ -11,7 +11,7 @@ import { inject, observer } from "mobx-react";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { HelpDescriptionComponent } from "../components/Help";
 import { ILesson } from "../store/Lessons";
-import { GAActions } from "../config/Constants";
+import { GAActions, LANGUAGES } from "../config/Constants";
 import { sendEvent } from "../config/GoogleAnalytics";
 
 const useStyles = makeStyles({
@@ -102,8 +102,10 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
         const lesson = lessons.lessons.find(
           (lesson: ILesson) => lesson.id.toString() === paths[2]
         );
-        if (lesson) lessons.currentLesson = lesson;
-        sendEvent(GAActions.CARD_OPENED);
+        if (lesson) {
+          lessons.currentLesson = lesson;
+          sendEvent(GAActions.CARD_OPENED);
+        }
       }
       init(true);
     }
@@ -117,26 +119,26 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
           <Card className={classes.card} variant="outlined">
             <CardContent className={classes.cardContent}>
               <Typography variant="h5" className={classes.text}>
-                {(lessons.targetLanguage === "russian" ||
-                  (lessons.targetLanguage === "german" &&
+                {(lessons.targetLanguage === LANGUAGES.RUSSIAN ||
+                  (lessons.targetLanguage === LANGUAGES.DEUTSCH &&
                     lessons.isTargetVisible)) &&
                   `${lessons.currentWord + 1}. ${
                     lessons.currentLesson.words[lessons.currentWord].german
                   }`}
-                {lessons.targetLanguage === "german" &&
+                {lessons.targetLanguage === LANGUAGES.DEUTSCH &&
                   !lessons.isTargetVisible && (
                     <VisibilityIcon onClick={showTranslation} />
                   )}
               </Typography>
               <Divider />
               <Typography variant="h5" className={classes.text}>
-                {(lessons.targetLanguage === "german" ||
-                  (lessons.targetLanguage === "russian" &&
+                {(lessons.targetLanguage === LANGUAGES.DEUTSCH ||
+                  (lessons.targetLanguage === LANGUAGES.RUSSIAN &&
                     lessons.isTargetVisible)) &&
                   `${lessons.currentWord + 1}. ${
                     lessons.currentLesson.words[lessons.currentWord].russian
                   }`}
-                {lessons.targetLanguage === "russian" &&
+                {lessons.targetLanguage === LANGUAGES.RUSSIAN &&
                   !lessons.isTargetVisible && (
                     <VisibilityIcon onClick={showTranslation} />
                   )}
