@@ -57,6 +57,11 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
 
           lessons.currentWord = 0;
           lessons.isTargetVisible = false;
+          if (lessons.targetLanguage === LANGUAGES.DEUTSCH) {
+            sendEvent(GAActions.CARD_FINISHED, {
+              current: lessons.currentLesson.id,
+            });
+          }
           return;
         }
         lessons.currentWord = lessons.currentWord + 1;
@@ -64,10 +69,6 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
         sendEvent(GAActions.NEXT_WORD, {
           current: lessons.currentLesson.words[lessons.currentWord],
         });
-        if (lessons.targetLanguage === LANGUAGES.DEUTSCH && isWordLast)
-          sendEvent(GAActions.CARD_FINISHED, {
-            current: lessons.currentLesson.id,
-          });
       }
     };
 
