@@ -97,11 +97,13 @@ export const Layout: React.FC<any> = inject("lessons")(
     };
 
     const nextCard = (id: string) => () => {
-      sendEvent(GAActions.NEXT_CARD)
-      const nextLesson = lessons.lessons.find((lesson: ILesson) => lesson.id.toString() === id.toString())
+      sendEvent(GAActions.NEXT_CARD);
+      const nextLesson = lessons.lessons.find(
+        (lesson: ILesson) => lesson.id.toString() === id.toString()
+      );
       lessons.currentLesson = nextLesson;
       setMobileOpen(false);
-    }
+    };
 
     const isDone = (title: string) => {
       const today = moment().format("MM/DD/YYYY");
@@ -126,7 +128,12 @@ export const Layout: React.FC<any> = inject("lessons")(
           </ListItem>
           {lessons.lessons.map(
             ({ title, id }: { title: string; id: string }) => (
-              <Link onClick={nextCard(id)} key={id} to={`lessons/${id}`} className={classes.link}>
+              <Link
+                onClick={nextCard(id)}
+                key={id}
+                to={`lessons/${id}`}
+                className={classes.link}
+              >
                 <ListItem
                   className={classnames({
                     [classes.active]: lessons.currentLesson.id === id,

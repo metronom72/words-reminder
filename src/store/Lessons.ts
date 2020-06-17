@@ -27,8 +27,12 @@ export class LessonsStore {
   }
   switchLanguage = () => {
     const previousLanguage = this.targetLanguage;
-    const currentLanguage = this.targetLanguage === 'russian' ? 'german' : 'russian';
-    sendEvent(GAActions.NEXT_WORD, { current: this.targetLanguage, previous: previousLanguage })
+    const currentLanguage =
+      this.targetLanguage === "russian" ? "german" : "russian";
+    sendEvent(GAActions.SWITCH_LANGUAGE, {
+      current: this.targetLanguage,
+      previous: previousLanguage,
+    });
     this.targetLanguage = currentLanguage;
-  }
+  };
 }

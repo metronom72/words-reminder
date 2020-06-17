@@ -48,20 +48,26 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
 
     const nextWord = () => {
       if (!lessons.isTargetVisible) {
-        showTranslation()
+        showTranslation();
       } else {
-        const isWordLast = lessons.currentLesson.words.length - 1 === lessons.currentWord
+        const isWordLast =
+          lessons.currentLesson.words.length - 1 === lessons.currentWord;
         if (isWordLast) {
-          lessons.switchLanguage()
-          
+          lessons.switchLanguage();
+
           lessons.currentWord = 0;
           lessons.isTargetVisible = false;
           return;
         }
         lessons.currentWord = lessons.currentWord + 1;
         lessons.isTargetVisible = false;
-        sendEvent(GAActions.NEXT_WORD, { current: lessons.currentLesson.words[lessons.currentWord] })
-        if (lessons.targetLanguage === 'russian' && isWordLast)sendEvent(GAActions.CARD_FINISHED, { current: lessons.currentLesson.id })
+        sendEvent(GAActions.NEXT_WORD, {
+          current: lessons.currentLesson.words[lessons.currentWord],
+        });
+        if (lessons.targetLanguage === "deutsch" && isWordLast)
+          sendEvent(GAActions.CARD_FINISHED, {
+            current: lessons.currentLesson.id,
+          });
       }
     };
 
@@ -69,7 +75,9 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
       if (lessons.currentWord === 0) return;
       lessons.isTargetVisible = false;
       lessons.currentWord = lessons.currentWord - 1;
-      sendEvent(GAActions.PREVIOUS_WORD, { current: lessons.currentLesson.words[lessons.currentWord] })
+      sendEvent(GAActions.PREVIOUS_WORD, {
+        current: lessons.currentLesson.words[lessons.currentWord],
+      });
     };
 
     const handleArrowKeyboard = (event: any) => {
@@ -81,17 +89,21 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
     };
 
     const showTranslation = () => {
-      lessons.isTargetVisible = true
-      sendEvent(GAActions.SHOW_TRANSLATION, {language: lessons.targetLanguage})
-    }
+      lessons.isTargetVisible = true;
+      sendEvent(GAActions.SHOW_TRANSLATION, {
+        language: lessons.targetLanguage,
+      });
+    };
 
     if (!isInit) {
       window.onkeydown = handleArrowKeyboard;
       if (match) {
-        const paths = match.uri.split('/')
-        const lesson = lessons.lessons.find((lesson: ILesson) => lesson.id.toString() === paths[2])
+        const paths = match.uri.split("/");
+        const lesson = lessons.lessons.find(
+          (lesson: ILesson) => lesson.id.toString() === paths[2]
+        );
         if (lesson) lessons.currentLesson = lesson;
-        sendEvent(GAActions.CARD_OPENED)
+        sendEvent(GAActions.CARD_OPENED);
       }
       init(true);
     }
@@ -113,9 +125,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                   }`}
                 {lessons.targetLanguage === "german" &&
                   !lessons.isTargetVisible && (
-                    <VisibilityIcon
-                      onClick={showTranslation}
-                    />
+                    <VisibilityIcon onClick={showTranslation} />
                   )}
               </Typography>
               <Divider />
@@ -128,9 +138,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                   }`}
                 {lessons.targetLanguage === "russian" &&
                   !lessons.isTargetVisible && (
-                    <VisibilityIcon
-                      onClick={showTranslation}
-                    />
+                    <VisibilityIcon onClick={showTranslation} />
                   )}
               </Typography>
             </CardContent>
