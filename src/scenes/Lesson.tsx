@@ -93,17 +93,34 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
     const classes = useStyles();
     const location = useLocation();
     const match = useMatch(location.pathname);
-
     const [isInit, init] = React.useState(false);
+
+    const showLeftChevron = () => {
+      const isTargetLanguageRussian = lessons.targetLanguage === LANGUAGES.RUSSIAN;
+      const isFirstWord = lessons.currentWord === 0;
+      const isFirstCard = lessons.currentLesson && lessons.lessons[0] && lessons.currentLesson.id === lessons.lessons[0].id
+      return !(isTargetLanguageRussian && isFirstWord && isFirstCard);
+    }
+
+    const showRightChevron = () => {
+      const isTargetLanguageDeutsch = lessons.targetLanguage === LANGUAGES.DEUTSCH;
+      const isLastWord = lessons.currentLesson && lessons.currentWord === lessons.currentLesson.words.length - 1;
+      const isLastCard = lessons.currentLesson && lessons.currentLesson.id === lessons.lessons[lessons.lessons.length - 1].id;
+      const isTargetVisible = lessons.isTargetVisible;
+      return !(isTargetVisible && isTargetLanguageDeutsch && isLastWord && isLastCard);
+    }
 
     const isWordLast = () =>
       lessons.currentLesson.words.length - 1 === lessons.currentWord;
+
+    const isWordFirst = () =>
+      lessons.currentWord === 0;
 
     const nextWord = () => {
       if (!lessons.isTargetVisible) {
         showTranslation();
       } else {
-        if (isWordLast()) {
+        if (isWordLast() && showRightChevron()) {
           if (lessons.targetLanguage === LANGUAGES.DEUTSCH) {
             const nextId = (
               parseInt(lessons.currentLesson.id, 10) + 1
@@ -119,16 +136,25 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
           lessons.isTargetVisible = false;
           return;
         }
-        lessons.currentWord = lessons.currentWord + 1;
-        lessons.isTargetVisible = false;
-        sendEvent(GAActions.NEXT_WORD, {
-          current: lessons.currentLesson.words[lessons.currentWord],
-        });
+        if (showRightChevron()) {
+          lessons.currentWord = lessons.currentWord + 1;
+          lessons.isTargetVisible = false;
+          sendEvent(GAActions.NEXT_WORD, {
+            current: lessons.currentLesson.words[lessons.currentWord],
+          });
+        }
       }
     };
 
     const previousWord = () => {
-      if (lessons.currentWord === 0) return;
+      if (!showLeftChevron()) return;
+      if (isWordFirst() && showLeftChevron) {
+        const previousId = (
+          parseInt(lessons.currentLesson.id, 10) - 1
+        ).toString();
+        lessons.changeCard(previousId);
+        return;
+      }
       lessons.isTargetVisible = false;
       lessons.currentWord = lessons.currentWord - 1;
       sendEvent(GAActions.PREVIOUS_WORD, {
@@ -166,18 +192,18 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
       <>
         <div className={classes.root}>
           <div className={classes.actions}>
-            <div
+            {showLeftChevron() && <div
               className={classnames(classes.leftChevron, classes.chevron)}
               onClick={previousWord}
             >
               <ChevronLeftIcon />
-            </div>
-            <div
+            </div>}
+            {showRightChevron() && <div
               className={classnames(classes.rightChevron, classes.chevron)}
               onClick={nextWord}
             >
               <ChevronRightIcon />
-            </div>
+            </div>}
           </div>
           <div className={classes.wrapper}>
             <Card className={classes.card} variant="outlined">
