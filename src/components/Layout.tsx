@@ -102,6 +102,8 @@ export const Layout: React.FC<any> = inject("lessons")(
         (lesson: ILesson) => lesson.id === id
       );
       lessons.currentLesson = nextLesson;
+      lessons.currentWord = 0;
+      lessons.isTargetVisible = false;
       setMobileOpen(false);
     };
 

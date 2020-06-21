@@ -26,6 +26,4 @@ let lastId = 1;
   lastWordsLimit = lastWordsLimit - 1;
 });
 
-console.log(lessons);
-
 export default lessons as ILesson[];
