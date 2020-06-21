@@ -29,9 +29,7 @@ export class LessonsStore {
     this.history = history;
   }
   changeCard = (id: string) => {
-    const nextLesson = this.lessons.find(
-      (lesson: ILesson) => lesson.id === id
-    );
+    const nextLesson = this.lessons.find((lesson: ILesson) => lesson.id === id);
     if (!nextLesson) {
       this.history.navigate("/");
       return false;
@@ -39,8 +37,9 @@ export class LessonsStore {
     this.currentLesson = nextLesson;
     this.currentWord = 0;
     this.isTargetVisible = false;
-    return true
-  }
+    this.targetLanguage = LANGUAGES.RUSSIAN;
+    return true;
+  };
   switchLanguage = () => {
     const previousLanguage = this.targetLanguage;
     const currentLanguage =

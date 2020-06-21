@@ -4,12 +4,12 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   text: {
-    padding: '10px',
-    fontSize: '12px',
-    position: 'absolute',
-    bottom: '0',
-  }
-})
+    padding: "10px",
+    fontSize: "12px",
+    position: "absolute",
+    bottom: "0",
+  },
+});
 
 export const HelpDescriptionComponent: React.FC<any> = () => {
   const classes = useStyles();

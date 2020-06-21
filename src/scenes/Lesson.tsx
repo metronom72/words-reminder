@@ -12,12 +12,13 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import { HelpDescriptionComponent } from "../components/Help";
 import { GAActions, LANGUAGES } from "../config/Constants";
 import { sendEvent } from "../config/GoogleAnalytics";
-import classnames from 'classnames';
+import classnames from "classnames";
+import { ILesson } from "../store/Lessons";
 
 const useStyles = makeStyles({
   root: {
     display: "flex",
-    flexDirection: 'column',
+    flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
     width: "100%",
@@ -33,55 +34,55 @@ const useStyles = makeStyles({
     width: "100%",
   },
   invisible: {
-    visibility: 'hidden',
+    visibility: "hidden",
   },
   text: {
     padding: "20px 0 20px 0",
-    position: 'relative' 
+    position: "relative",
   },
   wrapper: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   actions: {
     maxWidth: 350,
-    width: '100%',
-    height: '30px',
-    position: 'relative',
+    width: "100%",
+    height: "30px",
+    position: "relative",
   },
   leftChevron: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
   },
   rightChevron: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
   },
   chevron: {
-    padding: '0 20px',
-    marginBottom: '10px',
-    justifyContent: 'center',
-    alignItems: 'center',
-    display: 'flex',
-    border: '1px solid rgba(0,0,0,0.25)',
+    padding: "0 20px",
+    marginBottom: "10px",
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
+    border: "1px solid rgba(0,0,0,0.25)",
     borderRadius: 2,
-    '&:hover': {
-      cursor: 'pointer',
-      borderColor: 'rgba(0,0,0,0.4)'
-    }
+    "&:hover": {
+      cursor: "pointer",
+      borderColor: "rgba(0,0,0,0.4)",
+    },
   },
   eye: {
-    width: '100%',
-    position: 'absolute',
+    width: "100%",
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
@@ -95,22 +96,27 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
 
     const [isInit, init] = React.useState(false);
 
+    const isWordLast = () =>
+      lessons.currentLesson.words.length - 1 === lessons.currentWord;
+
     const nextWord = () => {
       if (!lessons.isTargetVisible) {
         showTranslation();
       } else {
-        const isWordLast =
-          lessons.currentLesson.words.length - 1 === lessons.currentWord;
-        if (isWordLast) {
-          lessons.switchLanguage();
-
-          lessons.currentWord = 0;
-          lessons.isTargetVisible = false;
+        if (isWordLast()) {
           if (lessons.targetLanguage === LANGUAGES.DEUTSCH) {
+            const nextId = (
+              parseInt(lessons.currentLesson.id, 10) + 1
+            ).toString();
+            lessons.changeCard(nextId);
             sendEvent(GAActions.CARD_FINISHED, {
               current: lessons.currentLesson.id,
             });
+            return;
           }
+          lessons.switchLanguage();
+          lessons.currentWord = 0;
+          lessons.isTargetVisible = false;
           return;
         }
         lessons.currentWord = lessons.currentWord + 1;
@@ -160,10 +166,16 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
       <>
         <div className={classes.root}>
           <div className={classes.actions}>
-            <div className={classnames(classes.leftChevron, classes.chevron)} onClick={previousWord}>
+            <div
+              className={classnames(classes.leftChevron, classes.chevron)}
+              onClick={previousWord}
+            >
               <ChevronLeftIcon />
             </div>
-            <div className={classnames(classes.rightChevron, classes.chevron)} onClick={nextWord}>
+            <div
+              className={classnames(classes.rightChevron, classes.chevron)}
+              onClick={nextWord}
+            >
               <ChevronRightIcon />
             </div>
           </div>
@@ -171,9 +183,14 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
             <Card className={classes.card} variant="outlined">
               <CardContent className={classes.cardContent}>
                 <Typography variant="h5" className={classes.text}>
-                  <div className={classnames({[classes.invisible]: !(lessons.targetLanguage === LANGUAGES.RUSSIAN ||
-                    (lessons.targetLanguage === LANGUAGES.DEUTSCH &&
-                      lessons.isTargetVisible))})}
+                  <div
+                    className={classnames({
+                      [classes.invisible]: !(
+                        lessons.targetLanguage === LANGUAGES.RUSSIAN ||
+                        (lessons.targetLanguage === LANGUAGES.DEUTSCH &&
+                          lessons.isTargetVisible)
+                      ),
+                    })}
                   >
                     {`${lessons.currentWord + 1}. ${
                       lessons.currentLesson.words[lessons.currentWord].german
@@ -188,11 +205,16 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                 </Typography>
                 <Divider />
                 <Typography variant="h5" className={classes.text}>
-                  <div className={classnames({[classes.invisible]: !(lessons.targetLanguage === LANGUAGES.DEUTSCH ||
-                    (lessons.targetLanguage === LANGUAGES.RUSSIAN &&
-                      lessons.isTargetVisible))})}
+                  <div
+                    className={classnames({
+                      [classes.invisible]: !(
+                        lessons.targetLanguage === LANGUAGES.DEUTSCH ||
+                        (lessons.targetLanguage === LANGUAGES.RUSSIAN &&
+                          lessons.isTargetVisible)
+                      ),
+                    })}
                   >
-                    { `${lessons.currentWord + 1}. ${
+                    {`${lessons.currentWord + 1}. ${
                       lessons.currentLesson.words[lessons.currentWord].russian
                     }`}
                   </div>
