@@ -181,8 +181,8 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                   </div>
                   {lessons.targetLanguage === LANGUAGES.DEUTSCH &&
                     !lessons.isTargetVisible && (
-                      <div className={classes.eye}>
-                        <VisibilityIcon onClick={showTranslation} />
+                      <div className={classes.eye} onClick={showTranslation}>
+                        <VisibilityIcon />
                       </div>
                     )}
                 </Typography>
@@ -198,8 +198,8 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                   </div>
                   {lessons.targetLanguage === LANGUAGES.RUSSIAN &&
                     !lessons.isTargetVisible && (
-                      <div className={classes.eye}>
-                        <VisibilityIcon onClick={showTranslation} />
+                      <div className={classes.eye} onClick={showTranslation}>
+                        <VisibilityIcon />
                       </div>
                     )}
                 </Typography>

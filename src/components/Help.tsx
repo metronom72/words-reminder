@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   text: {
-    padding: '20px',
+    padding: '10px',
     fontSize: '12px',
     position: 'absolute',
     bottom: '0',
