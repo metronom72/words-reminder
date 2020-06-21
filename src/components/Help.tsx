@@ -1,9 +1,20 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  text: {
+    padding: '20px',
+    fontSize: '12px',
+    position: 'absolute',
+    bottom: '0',
+  }
+})
 
 export const HelpDescriptionComponent: React.FC<any> = () => {
+  const classes = useStyles();
   return (
-    <Typography style={{ fontSize: "12px", position: "absolute", bottom: "0" }}>
+    <Typography className={classes.text}>
       Это приложение можно использвоать для изучения слов каждый день небольшими
       группами слов. В каждой группе слов ровно 10 штук и если каждый день брать
       новую группу, то за 10 дней можно получить словарный запас в 100 слов, и,

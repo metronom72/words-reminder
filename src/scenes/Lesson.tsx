@@ -10,20 +10,21 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { inject, observer } from "mobx-react";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { HelpDescriptionComponent } from "../components/Help";
-import { ILesson } from "../store/Lessons";
 import { GAActions, LANGUAGES } from "../config/Constants";
 import { sendEvent } from "../config/GoogleAnalytics";
+import classnames from 'classnames';
 
 const useStyles = makeStyles({
   root: {
     display: "flex",
-    justifyContent: "center",
+    flexDirection: 'column',
+    justifyContent: "flex-start",
     alignItems: "center",
     width: "100%",
     height: "100%",
   },
   card: {
-    minWidth: 275,
+    width: 350,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -31,8 +32,56 @@ const useStyles = makeStyles({
   cardContent: {
     width: "100%",
   },
+  invisible: {
+    visibility: 'hidden',
+  },
   text: {
     padding: "20px 0 20px 0",
+    position: 'relative' 
+  },
+  wrapper: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  actions: {
+    maxWidth: 350,
+    width: '100%',
+    height: '30px',
+    position: 'relative',
+  },
+  leftChevron: {
+    position: 'absolute',
+    left: 0,
+  },
+  rightChevron: {
+    position: 'absolute',
+    right: 0,
+  },
+  chevron: {
+    padding: '0 20px',
+    marginBottom: '10px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
+    border: '1px solid rgba(0,0,0,0.25)',
+    borderRadius: 2,
+    '&:hover': {
+      cursor: 'pointer',
+      borderColor: 'rgba(0,0,0,0.4)'
+    }
+  },
+  eye: {
+    width: '100%',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
@@ -100,11 +149,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
       window.onkeydown = handleArrowKeyboard;
       if (match) {
         const paths = match.uri.split("/");
-        const lesson = lessons.lessons.find(
-          (lesson: ILesson) => lesson.id === paths[2]
-        );
-        if (lesson) {
-          lessons.currentLesson = lesson;
+        if (lessons.changeCard(paths[2])) {
           sendEvent(GAActions.CARD_OPENED);
         }
       }
@@ -114,39 +159,53 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
     return (
       <>
         <div className={classes.root}>
-          {lessons.currentWord !== 0 && (
-            <ChevronLeftIcon onClick={previousWord} />
-          )}
-          <Card className={classes.card} variant="outlined">
-            <CardContent className={classes.cardContent}>
-              <Typography variant="h5" className={classes.text}>
-                {(lessons.targetLanguage === LANGUAGES.RUSSIAN ||
-                  (lessons.targetLanguage === LANGUAGES.DEUTSCH &&
-                    lessons.isTargetVisible)) &&
-                  `${lessons.currentWord + 1}. ${
-                    lessons.currentLesson.words[lessons.currentWord].german
-                  }`}
-                {lessons.targetLanguage === LANGUAGES.DEUTSCH &&
-                  !lessons.isTargetVisible && (
-                    <VisibilityIcon onClick={showTranslation} />
-                  )}
-              </Typography>
-              <Divider />
-              <Typography variant="h5" className={classes.text}>
-                {(lessons.targetLanguage === LANGUAGES.DEUTSCH ||
-                  (lessons.targetLanguage === LANGUAGES.RUSSIAN &&
-                    lessons.isTargetVisible)) &&
-                  `${lessons.currentWord + 1}. ${
-                    lessons.currentLesson.words[lessons.currentWord].russian
-                  }`}
-                {lessons.targetLanguage === LANGUAGES.RUSSIAN &&
-                  !lessons.isTargetVisible && (
-                    <VisibilityIcon onClick={showTranslation} />
-                  )}
-              </Typography>
-            </CardContent>
-          </Card>
-          <ChevronRightIcon onClick={nextWord} />
+          <div className={classes.actions}>
+            <div className={classnames(classes.leftChevron, classes.chevron)} onClick={previousWord}>
+              <ChevronLeftIcon />
+            </div>
+            <div className={classnames(classes.rightChevron, classes.chevron)} onClick={nextWord}>
+              <ChevronRightIcon />
+            </div>
+          </div>
+          <div className={classes.wrapper}>
+            <Card className={classes.card} variant="outlined">
+              <CardContent className={classes.cardContent}>
+                <Typography variant="h5" className={classes.text}>
+                  <div className={classnames({[classes.invisible]: !(lessons.targetLanguage === LANGUAGES.RUSSIAN ||
+                    (lessons.targetLanguage === LANGUAGES.DEUTSCH &&
+                      lessons.isTargetVisible))})}
+                  >
+                    {`${lessons.currentWord + 1}. ${
+                      lessons.currentLesson.words[lessons.currentWord].german
+                    }`}
+                  </div>
+                  {lessons.targetLanguage === LANGUAGES.DEUTSCH &&
+                    !lessons.isTargetVisible && (
+                      <div className={classes.eye}>
+                        <VisibilityIcon onClick={showTranslation} />
+                      </div>
+                    )}
+                </Typography>
+                <Divider />
+                <Typography variant="h5" className={classes.text}>
+                  <div className={classnames({[classes.invisible]: !(lessons.targetLanguage === LANGUAGES.DEUTSCH ||
+                    (lessons.targetLanguage === LANGUAGES.RUSSIAN &&
+                      lessons.isTargetVisible))})}
+                  >
+                    { `${lessons.currentWord + 1}. ${
+                      lessons.currentLesson.words[lessons.currentWord].russian
+                    }`}
+                  </div>
+                  {lessons.targetLanguage === LANGUAGES.RUSSIAN &&
+                    !lessons.isTargetVisible && (
+                      <div className={classes.eye}>
+                        <VisibilityIcon onClick={showTranslation} />
+                      </div>
+                    )}
+                </Typography>
+              </CardContent>
+            </Card>
+          </div>
         </div>
         <HelpDescriptionComponent />
       </>

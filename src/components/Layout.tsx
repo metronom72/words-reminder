@@ -22,7 +22,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Divider from "@material-ui/core/Divider";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
-import { ILesson } from "../store/Lessons";
 import { sendEvent } from "../config/GoogleAnalytics";
 import { GAActions } from "../config/Constants";
 
@@ -97,13 +96,9 @@ export const Layout: React.FC<any> = inject("lessons")(
     };
 
     const nextCard = (id: string) => () => {
-      sendEvent(GAActions.NEXT_CARD);
-      const nextLesson = lessons.lessons.find(
-        (lesson: ILesson) => lesson.id === id
-      );
-      lessons.currentLesson = nextLesson;
-      lessons.currentWord = 0;
-      lessons.isTargetVisible = false;
+      if (lessons.changeCard(id)) {
+        sendEvent(GAActions.NEXT_CARD);
+      }
       setMobileOpen(false);
     };
 
