@@ -99,7 +99,7 @@ export const Layout: React.FC<any> = inject("lessons")(
     const nextCard = (id: string) => () => {
       sendEvent(GAActions.NEXT_CARD);
       const nextLesson = lessons.lessons.find(
-        (lesson: ILesson) => lesson.id.toString() === id.toString()
+        (lesson: ILesson) => lesson.id === id
       );
       lessons.currentLesson = nextLesson;
       setMobileOpen(false);
@@ -109,7 +109,7 @@ export const Layout: React.FC<any> = inject("lessons")(
       const today = moment().format("MM/DD/YYYY");
       if (title === today) return 0;
       //@ts-ignore
-      const diff = moment(title, ["MM/DD/YYYY"]) - moment();
+      const diff = moment(title, ["MM/DD/YYYY", "M/D/YYYY"]) - moment();
       if (diff > 0) return -1;
       else return 1;
     };

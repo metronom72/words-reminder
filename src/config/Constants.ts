@@ -10,6 +10,6 @@ export enum GAActions {
 }
 
 export enum LANGUAGES {
-  RUSSIAN = 'russian',
-  DEUTSCH = 'deutsch'
+  RUSSIAN = "russian",
+  DEUTSCH = "deutsch",
 }

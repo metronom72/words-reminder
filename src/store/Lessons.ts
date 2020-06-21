@@ -28,7 +28,9 @@ export class LessonsStore {
   switchLanguage = () => {
     const previousLanguage = this.targetLanguage;
     const currentLanguage =
-      this.targetLanguage === LANGUAGES.RUSSIAN ? LANGUAGES.DEUTSCH : LANGUAGES.RUSSIAN;
+      this.targetLanguage === LANGUAGES.RUSSIAN
+        ? LANGUAGES.DEUTSCH
+        : LANGUAGES.RUSSIAN;
     sendEvent(GAActions.SWITCH_LANGUAGE, {
       current: this.targetLanguage,
       previous: previousLanguage,

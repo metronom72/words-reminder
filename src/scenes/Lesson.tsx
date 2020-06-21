@@ -101,7 +101,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
       if (match) {
         const paths = match.uri.split("/");
         const lesson = lessons.lessons.find(
-          (lesson: ILesson) => lesson.id.toString() === paths[2]
+          (lesson: ILesson) => lesson.id === paths[2]
         );
         if (lesson) {
           lessons.currentLesson = lesson;
