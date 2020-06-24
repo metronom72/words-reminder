@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps, useMatch, useLocation } from "@reach/router";
+import { RouteComponentProps, useMatch, useLocation, useNavigate } from "@reach/router";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import CardContent from "@material-ui/core/CardContent";
@@ -13,7 +13,6 @@ import { HelpDescriptionComponent } from "../components/Help";
 import { GAActions, LANGUAGES } from "../config/Constants";
 import { sendEvent } from "../config/GoogleAnalytics";
 import classnames from "classnames";
-import { ILesson } from "../store/Lessons";
 
 const useStyles = makeStyles({
   root: {
@@ -92,17 +91,18 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
   observer(({ lessons }) => {
     const classes = useStyles();
     const location = useLocation();
+    const navigate = useNavigate()
     const match = useMatch(location.pathname);
     const [isInit, init] = React.useState(false);
 
-    const showLeftChevron = () => {
+    const hasPreviousCard = () => {
       const isTargetLanguageRussian = lessons.targetLanguage === LANGUAGES.RUSSIAN;
       const isFirstWord = lessons.currentWord === 0;
       const isFirstCard = lessons.currentLesson && lessons.lessons[0] && lessons.currentLesson.id === lessons.lessons[0].id
       return !(isTargetLanguageRussian && isFirstWord && isFirstCard);
     }
 
-    const showRightChevron = () => {
+    const hasNextCard = () => {
       const isTargetLanguageDeutsch = lessons.targetLanguage === LANGUAGES.DEUTSCH;
       const isLastWord = lessons.currentLesson && lessons.currentWord === lessons.currentLesson.words.length - 1;
       const isLastCard = lessons.currentLesson && lessons.currentLesson.id === lessons.lessons[lessons.lessons.length - 1].id;
@@ -120,7 +120,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
       if (!lessons.isTargetVisible) {
         showTranslation();
       } else {
-        if (isWordLast() && showRightChevron()) {
+        if (isWordLast() && hasNextCard()) {
           if (lessons.targetLanguage === LANGUAGES.DEUTSCH) {
             const nextId = (
               parseInt(lessons.currentLesson.id, 10) + 1
@@ -136,7 +136,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
           lessons.isTargetVisible = false;
           return;
         }
-        if (showRightChevron()) {
+        if (hasNextCard()) {
           lessons.currentWord = lessons.currentWord + 1;
           lessons.isTargetVisible = false;
           sendEvent(GAActions.NEXT_WORD, {
@@ -147,8 +147,8 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
     };
 
     const previousWord = () => {
-      if (!showLeftChevron()) return;
-      if (isWordFirst() && showLeftChevron) {
+      if (!hasPreviousCard()) return;
+      if (isWordFirst() && hasPreviousCard()) {
         const previousId = (
           parseInt(lessons.currentLesson.id, 10) - 1
         ).toString();
@@ -188,17 +188,22 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
       init(true);
     }
 
+    if (!lessons.currentLesson.words[lessons.currentWord]) {
+      navigate('/')
+      return null;
+    }
+
     return (
       <>
         <div className={classes.root}>
           <div className={classes.actions}>
-            {showLeftChevron() && <div
+            {hasPreviousCard() && <div
               className={classnames(classes.leftChevron, classes.chevron)}
               onClick={previousWord}
             >
               <ChevronLeftIcon />
             </div>}
-            {showRightChevron() && <div
+            {hasNextCard() && <div
               className={classnames(classes.rightChevron, classes.chevron)}
               onClick={nextWord}
             >
