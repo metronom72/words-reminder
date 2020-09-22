@@ -17,6 +17,7 @@ export const LessonsRouter: React.FC<any> = () => {
                 <Layout>
                     <Router>
                         <LessonComponent history={history} path="lessons/:lessonId"/>
+                        <LessonComponent history={history} path="tables/:lessonId"/>
                     </Router>
                 </Layout>
             </Provider>

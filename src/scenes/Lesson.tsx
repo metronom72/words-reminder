@@ -10,9 +10,10 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import {inject, observer} from "mobx-react";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import {HelpDescriptionComponent} from "../components/Help";
-import {GAActions, LANGUAGES} from "../config/Constants";
+import {GAActions, LANGUAGES, LESSON_TYPES} from "../config/Constants";
 import {sendEvent} from "../config/GoogleAnalytics";
 import classnames from "classnames";
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 
 const useStyles = makeStyles({
     root: {
@@ -83,6 +84,16 @@ const useStyles = makeStyles({
         justifyContent: "center",
         alignItems: "center",
     },
+    relativeEye: {
+        width: "100%",
+        height: 0,
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+    },
+    table: {
+        width: 450,
+    }
 });
 
 export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
@@ -193,8 +204,20 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
             return null;
         }
 
+        const lessonType = match ? match.uri.split("/")[1] : null;
+
+        const columns = [{
+            id: LANGUAGES.RUSSIAN,
+            label: 'РУССКИЙ',
+            width: 300,
+        }, {
+            id: LANGUAGES.DEUTSCH,
+            label: 'DEUTSCH',
+            width: 300,
+        }]
+
         return (
-            <>
+            <div style={{width: '100%', position: 'relative'}}>
                 <div className={classes.root}>
                     <div className={classes.actions}>
                         {hasPreviousCard() && <div
@@ -211,57 +234,119 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                         </div>}
                     </div>
                     <div className={classes.wrapper}>
-                        <Card className={classes.card} variant="outlined">
-                            <CardContent className={classes.cardContent}>
-                                <Typography variant="h5" className={classes.text}>
-                                    <div
-                                        className={classnames({
-                                            [classes.invisible]: !(
-                                                lessons.targetLanguage === LANGUAGES.RUSSIAN ||
-                                                (lessons.targetLanguage === LANGUAGES.DEUTSCH &&
-                                                    lessons.isTargetVisible)
-                                            ),
+                        {lessonType === LESSON_TYPES.TABLE &&
+                            <TableContainer className={classes.table}>
+                                <Table stickyHeader aria-label="sticky table">
+                                    <TableHead>
+                                        <TableRow>
+                                            {columns.map((column) => (
+                                                <TableCell
+                                                    size={"small"}
+                                                    key={column.id}
+                                                    style={{ width: column.width }}
+                                                    variant={"footer"}
+                                                >
+                                                    {column.label}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {lessons.currentLesson.words.map((row: any, index: number) => {
+                                            return (
+                                                <TableRow hover role="checkbox" tabIndex={-1} key={row.german}>
+                                                    {columns.map((column) => {
+                                                        const value = row[column.id];
+                                                        return (
+                                                            <TableCell key={column.id} style={{ width: row.width, minHeight: 50 }} size={"small"}>
+                                                                {lessons.currentWord > index && value}
+                                                                {lessons.currentWord === index &&
+                                                                    <>
+                                                                        {
+                                                                            lessons.targetLanguage === LANGUAGES.DEUTSCH &&
+                                                                                (column.id === LANGUAGES.DEUTSCH &&
+                                                                                    !lessons.isTargetVisible ? (
+                                                                                        <div
+                                                                                            className={classnames(classes.relativeEye)}
+                                                                                            onClick={showTranslation}>
+                                                                                            <VisibilityIcon/>
+                                                                                        </div>
+                                                                                    ) : value
+                                                                                )
+                                                                        }
+                                                                        {lessons.targetLanguage === LANGUAGES.RUSSIAN &&
+                                                                            (column.id === LANGUAGES.RUSSIAN &&
+                                                                            !lessons.isTargetVisible ? (
+                                                                            <div className={classnames(classes.relativeEye)} onClick={showTranslation}>
+                                                                            <VisibilityIcon/>
+                                                                            </div>
+                                                                            ) : value
+                                                                            )
+                                                                        }
+                                                                    </>
+                                                                }
+                                                            </TableCell>
+                                                        );
+                                                    })}
+                                                </TableRow>
+                                            );
                                         })}
-                                    >
-                                        {`${lessons.currentWord + 1}. ${
-                                            lessons.currentLesson.words[lessons.currentWord].german
-                                        }`}
-                                    </div>
-                                    {lessons.targetLanguage === LANGUAGES.DEUTSCH &&
-                                    !lessons.isTargetVisible && (
-                                        <div className={classes.eye} onClick={showTranslation}>
-                                            <VisibilityIcon/>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        }
+                        {lessonType === LESSON_TYPES.SINGLE_CARD &&
+                            <Card className={classes.card} variant="outlined">
+                                <CardContent className={classes.cardContent}>
+                                    <Typography variant="h5" className={classes.text}>
+                                        <div
+                                            className={classnames({
+                                                [classes.invisible]: !(
+                                                    lessons.targetLanguage === LANGUAGES.RUSSIAN ||
+                                                    (lessons.targetLanguage === LANGUAGES.DEUTSCH &&
+                                                        lessons.isTargetVisible)
+                                                ),
+                                            })}
+                                        >
+                                            {`${lessons.currentWord + 1}. ${
+                                                lessons.currentLesson.words[lessons.currentWord].german
+                                            }`}
                                         </div>
-                                    )}
-                                </Typography>
-                                <Divider/>
-                                <Typography variant="h5" className={classes.text}>
-                                    <div
-                                        className={classnames({
-                                            [classes.invisible]: !(
-                                                lessons.targetLanguage === LANGUAGES.DEUTSCH ||
-                                                (lessons.targetLanguage === LANGUAGES.RUSSIAN &&
-                                                    lessons.isTargetVisible)
-                                            ),
-                                        })}
-                                    >
-                                        {`${lessons.currentWord + 1}. ${
-                                            lessons.currentLesson.words[lessons.currentWord].russian
-                                        }`}
-                                    </div>
-                                    {lessons.targetLanguage === LANGUAGES.RUSSIAN &&
-                                    !lessons.isTargetVisible && (
-                                        <div className={classes.eye} onClick={showTranslation}>
-                                            <VisibilityIcon/>
+                                        {lessons.targetLanguage === LANGUAGES.DEUTSCH &&
+                                        !lessons.isTargetVisible && (
+                                            <div className={classes.eye} onClick={showTranslation}>
+                                                <VisibilityIcon/>
+                                            </div>
+                                        )}
+                                    </Typography>
+                                    <Divider/>
+                                    <Typography variant="h5" className={classes.text}>
+                                        <div
+                                            className={classnames({
+                                                [classes.invisible]: !(
+                                                    lessons.targetLanguage === LANGUAGES.DEUTSCH ||
+                                                    (lessons.targetLanguage === LANGUAGES.RUSSIAN &&
+                                                        lessons.isTargetVisible)
+                                                ),
+                                            })}
+                                        >
+                                            {`${lessons.currentWord + 1}. ${
+                                                lessons.currentLesson.words[lessons.currentWord].russian
+                                            }`}
                                         </div>
-                                    )}
-                                </Typography>
-                            </CardContent>
-                        </Card>
+                                        {lessons.targetLanguage === LANGUAGES.RUSSIAN &&
+                                        !lessons.isTargetVisible && (
+                                            <div className={classes.eye} onClick={showTranslation}>
+                                                <VisibilityIcon/>
+                                            </div>
+                                        )}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        }
                     </div>
                 </div>
-                <HelpDescriptionComponent/>
-            </>
+            </div>
         );
     })
 );

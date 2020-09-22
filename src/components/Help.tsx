@@ -6,15 +6,15 @@ const useStyles = makeStyles({
     text: {
         padding: "10px",
         fontSize: "12px",
-        position: "absolute",
         bottom: "0",
     },
 });
 
-export const HelpDescriptionComponent: React.FC<any> = () => {
+export const HelpDescriptionComponent: React.FC<any> = ({ position }: {position: string}) => {
     const classes = useStyles();
     return (
-        <Typography className={classes.text}>
+        // @ts-ignore
+        <Typography className={classes.text} style={{position: position}}>
             Это приложение можно использвоать для изучения слов каждый день небольшими
             группами слов. В каждой группе слов ровно 10 штук и если каждый день брать
             новую группу, то за 10 дней можно получить словарный запас в 100 слов, и,

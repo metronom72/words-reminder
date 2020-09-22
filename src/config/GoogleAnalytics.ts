@@ -2,7 +2,7 @@ import ReactGA from "react-ga";
 import {GAActions} from "./Constants";
 
 export const init = () => {
-    ReactGA.initialize("UA-169678562-1", {debug: true});
+    ReactGA.initialize("UA-169678562-1", {debug: false});
     sendEvent(GAActions.COLD_START);
 };
 

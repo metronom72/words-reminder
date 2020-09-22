@@ -11,5 +11,10 @@ export enum GAActions {
 
 export enum LANGUAGES {
     RUSSIAN = "russian",
-    DEUTSCH = "deutsch",
+    DEUTSCH = "german",
+}
+
+export enum LESSON_TYPES {
+    SINGLE_CARD = "lessons",
+    TABLE = "tables"
 }

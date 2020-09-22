@@ -3,7 +3,7 @@ import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import {makeStyles, useTheme} from "@material-ui/core/styles";
-import {Link} from "@reach/router";
+import {Link, useLocation, useMatch, useNavigate} from "@reach/router";
 import {inject, observer} from "mobx-react";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -23,7 +23,7 @@ import Divider from "@material-ui/core/Divider";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
 import {sendEvent} from "../config/GoogleAnalytics";
-import {GAActions} from "../config/Constants";
+import {GAActions, LESSON_TYPES} from "../config/Constants";
 
 const drawerWidth: number = 240;
 
@@ -74,14 +74,18 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         width: drawerWidth,
     },
+    switchViewLink: {
+        color: 'white',
+        justifySelf: "flex-end"
+    }
 }));
 
 export const Layout: React.FC<any> = inject("lessons")(
     observer(({lessons, children}) => {
         const classes = useStyles();
-
+        const location = useLocation();
+        const match = useMatch(location.pathname);
         const theme = useTheme();
-
         const container =
             window !== undefined ? () => window.document.body : undefined;
 
@@ -111,6 +115,8 @@ export const Layout: React.FC<any> = inject("lessons")(
             else return 1;
         };
 
+        const lessonType = match ? match.uri.split("/")[1] : null;
+
         const drawer = (
             <div>
                 <div className={classes.toolbar}/>
@@ -128,7 +134,7 @@ export const Layout: React.FC<any> = inject("lessons")(
                             <Link
                                 onClick={nextCard(id)}
                                 key={id}
-                                to={`lessons/${id}`}
+                                to={`${lessonType || 'lessons'}/${id}`}
                                 className={classes.link}
                             >
                                 <ListItem
@@ -177,7 +183,7 @@ export const Layout: React.FC<any> = inject("lessons")(
             <div className={classes.root}>
                 <CssBaseline/>
                 <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar>
+                    <Toolbar style={{justifyContent: "space-between", display: "flex"}}>
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"
@@ -191,6 +197,14 @@ export const Layout: React.FC<any> = inject("lessons")(
                             {lessons.currentLesson.title} (
                             {lessons.currentLesson.words.length} ) слов
                         </Typography>
+                        <Link
+                            onClick={nextCard(lessons.currentLesson.id)}
+                            key={lessons.currentLesson.id}
+                            to={`${lessonType === LESSON_TYPES.SINGLE_CARD ? "tables" : "lessons"}/${lessons.currentLesson.id}`}
+                            className={classes.switchViewLink}
+                        >
+                            {lessonType === LESSON_TYPES.SINGLE_CARD ? "Табличный вид" : "Просмотр карточек"}
+                        </Link>
                     </Toolbar>
                 </AppBar>
                 <nav className={classes.drawer}>
