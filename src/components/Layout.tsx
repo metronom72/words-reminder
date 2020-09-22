@@ -3,7 +3,7 @@ import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import {makeStyles, useTheme} from "@material-ui/core/styles";
-import {Link, useLocation, useMatch, useNavigate} from "@reach/router";
+import {Link, useLocation, useMatch} from "@reach/router";
 import {inject, observer} from "mobx-react";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";

@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const HelpDescriptionComponent: React.FC<any> = ({ position }: {position: string}) => {
+export const HelpDescriptionComponent: React.FC<any> = ({position}: { position: string }) => {
     const classes = useStyles();
     return (
         // @ts-ignore
