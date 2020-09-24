@@ -4,7 +4,7 @@ import {ILesson, IWord} from "../store/Lessons";
 import moment from "moment";
 
 const lessons: ILesson[] = [];
-const today = new Date("09/24/2020").getTime();
+const today = new Date("08/22/2020").getTime();
 let offset = 0;
 const day = 24 * 60 * 60 * 1000;
 const wordsLimit = 19;
