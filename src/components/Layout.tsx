@@ -12,8 +12,6 @@ import Paper from "@material-ui/core/Paper";
 import classnames from "classnames";
 import moment from "moment";
 import Chip from "@material-ui/core/Chip";
-import EventIcon from "@material-ui/icons/Event";
-import DoneIcon from "@material-ui/icons/Done";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -95,6 +93,21 @@ export const Layout: React.FC<any> = inject("lessons")(
             setMobileOpen(!mobileOpen);
         };
 
+        const inFrame = (date: string) => {
+           return moment(date).isBetween(
+               moment().subtract(8, "d"),
+               moment(),
+           )
+        }
+
+        const getLessonLabel = (date: string) => {
+            if (!moment().isSame(moment(date), "d")) {
+                return "Повторить"
+            } else {
+                return "Сегодня"
+            }
+        }
+
         const switchLanguage = () => {
             lessons.switchLanguage();
         };
@@ -107,12 +120,7 @@ export const Layout: React.FC<any> = inject("lessons")(
         };
 
         const isDone = (title: string) => {
-            const today = moment().format("MM/DD/YYYY");
-            if (title === today) return 0;
-            //@ts-ignore
-            const diff = moment(title, ["MM/DD/YYYY", "M/D/YYYY"]) - moment();
-            if (diff > 0) return -1;
-            else return 1;
+            return inFrame(title)
         };
 
         const lessonType = match ? match.uri.split("/")[1] : null;
@@ -148,24 +156,12 @@ export const Layout: React.FC<any> = inject("lessons")(
                                         primary={
                                             <div>
                                                 {title}{" "}
-                                                {isDone(title) >= 0 && (
+                                                {isDone(title) && (
                                                     <Chip
-                                                        label={
-                                                            isDone(title) === 0
-                                                                ? "Сегодня"
-                                                                : isDone(title) > 0 && "Повторить"
-                                                        }
+                                                        label={getLessonLabel(title)}
                                                         variant="outlined"
                                                         size="small"
                                                         color="primary"
-                                                        //@ts-ignore
-                                                        deleteIcon={
-                                                            isDone(title) === 0 ? (
-                                                                <EventIcon/>
-                                                            ) : (
-                                                                isDone(title) > 0 && <DoneIcon/>
-                                                            )
-                                                        }
                                                     />
                                                 )}
                                             </div>
