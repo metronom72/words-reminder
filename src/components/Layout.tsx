@@ -145,29 +145,32 @@ export const Layout: React.FC<any> = inject("lessons")(
                                 to={`${lessonType || 'lessons'}/${id}`}
                                 className={classes.link}
                             >
-                                <ListItem
-                                    className={classnames({
-                                        [classes.active]: lessons.currentLesson.id === id,
-                                    })}
-                                    button
-                                    key={id}
-                                >
-                                    <ListItemText
-                                        primary={
-                                            <div>
-                                                {title}{" "}
-                                                {isDone(title) && (
-                                                    <Chip
-                                                        label={getLessonLabel(title)}
-                                                        variant="outlined"
-                                                        size="small"
-                                                        color="primary"
-                                                    />
-                                                )}
-                                            </div>
-                                        }
-                                    />
-                                </ListItem>
+
+                                {isDone(title) && (
+                                    <ListItem
+                                        className={classnames({
+                                            [classes.active]: lessons.currentLesson.id === id,
+                                        })}
+                                        button
+                                        key={id}
+                                    >
+                                        <ListItemText
+                                            primary={
+                                                <div>
+                                                    {title}{" "}
+                                                    {isDone(title) && (
+                                                        <Chip
+                                                            label={getLessonLabel(title)}
+                                                            variant="outlined"
+                                                            size="small"
+                                                            color="primary"
+                                                        />
+                                                    )}
+                                                </div>
+                                            }
+                                        />
+                                    </ListItem>
+                                )}
                             </Link>
                         )
                     )}
