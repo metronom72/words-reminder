@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: 0,
         position: "relative",
         minHeight: "100vh",
-        paddingTop: "75px",
+        paddingTop: "50px",
     },
     link: {
         color: "#000000",

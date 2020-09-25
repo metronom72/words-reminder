@@ -45,6 +45,18 @@ const useStyles = makeStyles({
         justifyContent: "center",
         alignItems: "center",
     },
+    actionsWrapper: {
+        width: "100%",
+        position: "sticky",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingTop: "25px",
+        paddingBottom: "5px",
+        top: "55px",
+        background: "white",
+        borderBottom: "1px solid rgb(225,225,225)",
+    },
     actions: {
         maxWidth: 350,
         width: "100%",
@@ -106,6 +118,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
         const navigate = useNavigate()
         const match = useMatch(location.pathname);
         const [isInit, init] = React.useState(false);
+        const lessonType = match ? match.uri.split("/")[1] : null;
 
         const hasPreviousCard = () => {
             const isTargetLanguageRussian = lessons.targetLanguage === LANGUAGES.RUSSIAN;
@@ -128,9 +141,18 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
         const isWordFirst = () =>
             lessons.currentWord === 0;
 
+        const scrollToBottom = () => {
+            const scrollingElement = (document.scrollingElement || document.body);
+            scrollingElement.scrollTop = scrollingElement.scrollHeight;
+        }
+
         const nextWord = () => {
             if (!lessons.isTargetVisible) {
                 showTranslation();
+                if (lessonType === LESSON_TYPES.TABLE) {
+                    nextWord();
+                    scrollToBottom();
+                }
             } else {
                 if (isWordLast() && hasNextCard()) {
                     if (lessons.targetLanguage === LANGUAGES.DEUTSCH) {
@@ -205,8 +227,6 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
             return null;
         }
 
-        const lessonType = match ? match.uri.split("/")[1] : null;
-
         const columns = [{
             id: LANGUAGES.RUSSIAN,
             label: 'РУССКИЙ',
@@ -220,19 +240,21 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
         return (
             <div style={{width: '100%', position: 'relative'}}>
                 <div className={classes.root}>
-                    <div className={classes.actions}>
-                        {hasPreviousCard() && <div
-                            className={classnames(classes.leftChevron, classes.chevron)}
-                            onClick={previousWord}
-                        >
-                            <ChevronLeftIcon/>
-                        </div>}
-                        {hasNextCard() && <div
-                            className={classnames(classes.rightChevron, classes.chevron)}
-                            onClick={nextWord}
-                        >
-                            <ChevronRightIcon/>
-                        </div>}
+                    <div className={classes.actionsWrapper}>
+                        <div className={classes.actions}>
+                            {hasPreviousCard() && <div
+                                className={classnames(classes.leftChevron, classes.chevron)}
+                                onClick={previousWord}
+                            >
+                                <ChevronLeftIcon/>
+                            </div>}
+                            {hasNextCard() && <div
+                                className={classnames(classes.rightChevron, classes.chevron)}
+                                onClick={nextWord}
+                            >
+                                <ChevronRightIcon/>
+                            </div>}
+                        </div>
                     </div>
                     <div className={classes.wrapper}>
                         {lessonType === LESSON_TYPES.TABLE &&
