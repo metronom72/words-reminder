@@ -91,7 +91,9 @@ const useStyles = makeStyles({
         alignItems: "center",
     },
     table: {
-        width: 450,
+        width: '100%',
+        minWidth: '350px',
+        maxWidth: '500px'
     }
 });
 
@@ -208,11 +210,11 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
         const columns = [{
             id: LANGUAGES.RUSSIAN,
             label: 'РУССКИЙ',
-            width: 300,
+            width: 175,
         }, {
             id: LANGUAGES.DEUTSCH,
             label: 'DEUTSCH',
-            width: 300,
+            width: 175,
         }]
 
         return (
