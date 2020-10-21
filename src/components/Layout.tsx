@@ -10,7 +10,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import cn from "classnames";
-import moment from "moment";
+// import moment from "moment";
 import Chip from "@material-ui/core/Chip";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -21,7 +21,7 @@ import Divider from "@material-ui/core/Divider";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
 import {sendEvent} from "../config/GoogleAnalytics";
-import {GAActions, LESSON_TYPES} from "../config/Constants";
+import {DEFAULT_FRAME_LENGTH, GAActions, LESSON_TYPES} from "../config/Constants";
 import {NumInput} from "./NumInput";
 
 const drawerWidth: number = 240;
@@ -94,34 +94,31 @@ export const Layout: React.FC<any> = inject("lessonsStore")(
             setMobileOpen(!mobileOpen);
         };
 
-        const inFrame = (date: string) => {
-           return moment(date).isBetween(
-               moment().subtract(8, "d"),
-               moment(),
-           )
+        const inFrame = (id: number) => {
+            return (lessonsStore.lastLearnedLessonId - id) >= 0 &&
+                lessonsStore.lastLearnedLessonId - id < DEFAULT_FRAME_LENGTH;
         }
 
-        const getLessonLabel = (date: string) => {
-            if (!moment().isSame(moment(date), "d")) {
-                return "Повторить"
-            } else {
+        const getLessonLabel = (id: number) => {
+            if (id === lessonsStore.lastLearnedLessonId) {
                 return "Сегодня"
             }
+            return "Повторить"
         }
 
         const switchLanguage = () => {
             lessonsStore.switchLanguage();
         };
 
-        const nextCard = (id: string) => () => {
+        const nextCard = (id: number) => () => {
             if (lessonsStore.changeCard(id)) {
                 sendEvent(GAActions.NEXT_CARD);
             }
             setMobileOpen(false);
         };
 
-        const isDone = (title: string) => {
-            return inFrame(title)
+        const isDone = (id: number) => {
+            return inFrame(id)
         };
 
         const lessonType = match ? match.uri.split("/")[1] : null;
@@ -139,15 +136,14 @@ export const Layout: React.FC<any> = inject("lessonsStore")(
                         />
                     </ListItem>
                     {lessonsStore.lessons.map(
-                        ({title, id}: { title: string; id: string }) => (
-                            <Link
-                                onClick={nextCard(id)}
-                                key={id}
-                                to={`${lessonType || 'lessons'}/${id}`}
-                                className={classes.link}
-                            >
-
-                                {isDone(title) && (
+                        ({title, id}: { title: string; id: number }) => (
+                            isDone(id) ? (
+                                <Link
+                                    onClick={nextCard(id)}
+                                    key={id}
+                                    to={`${lessonType || 'lessons'}/${id}`}
+                                    className={classes.link}
+                                >
                                     <ListItem
                                         className={cn({
                                             [classes.active]: lessonsStore.currentLesson.id === id,
@@ -159,9 +155,9 @@ export const Layout: React.FC<any> = inject("lessonsStore")(
                                             primary={
                                                 <div>
                                                     {id}. {title}{" "}
-                                                    {isDone(title) && (
+                                                    {isDone(id) && (
                                                         <Chip
-                                                            label={getLessonLabel(title)}
+                                                            label={getLessonLabel(id)}
                                                             variant="outlined"
                                                             size="small"
                                                             color="primary"
@@ -171,10 +167,8 @@ export const Layout: React.FC<any> = inject("lessonsStore")(
                                             }
                                         />
                                     </ListItem>
-                                )}
-                            </Link>
-                        )
-                    )}
+                                </Link>
+                            ) : null))}
                 </List>
             </div>
         );

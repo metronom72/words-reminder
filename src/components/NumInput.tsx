@@ -1,13 +1,12 @@
 import React from "react"
+
 export const NumInput = () => {
     const [value, setValue] = React.useState('')
-    // @ts-ignore
-    const onChange = (arg1) => {
-        if (value.length <= 6) {
-            setValue(arg1.target.value)
-        }
-        if (value.length > arg1.target.value.length) {
-            setValue(arg1.target.value)
+    const onChange = (event: any) => {
+        const targetValue = event.target.value
+
+        if (value.length <= 6 || value.length > targetValue.length) {
+            setValue(targetValue)
         }
     }
     return <input value={value} onChange={onChange}/>

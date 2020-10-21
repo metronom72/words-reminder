@@ -20,5 +20,12 @@ export enum LESSON_TYPES {
 }
 
 export enum STORAGE_CONSTANTS {
-    LAST_LEARNED_ID = '__last_learned_id__'
+    LAST_LEARNED_ID = '__last_learned_id__',
+    LAST_ACCESSED_DATE = '__last_accessed_date__'
 }
+
+export const DEFAULT_LAST_LEARNED_ID = 15
+
+export const DEFAULT_FRAME_LENGTH = 7
+
+export const DEFAULT_DATE_FORMAT = "MM/DD/YYYY"
