@@ -18,3 +18,7 @@ export enum LESSON_TYPES {
     SINGLE_CARD = "lessons",
     TABLE = "tables"
 }
+
+export enum STORAGE_CONSTANTS {
+    LAST_LEARNED_ID = '__last_learned_id__'
+}

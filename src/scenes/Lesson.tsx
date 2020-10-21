@@ -11,7 +11,7 @@ import {inject, observer} from "mobx-react";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import {GAActions, LANGUAGES, LESSON_TYPES} from "../config/Constants";
 import {sendEvent} from "../config/GoogleAnalytics";
-import classnames from "classnames";
+import cn from "classnames";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -110,9 +110,9 @@ const useStyles = makeStyles({
 });
 
 export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
-    "lessons"
+    "lessonsStore"
 )(
-    observer(({lessons}) => {
+    observer(({lessonsStore}) => {
         const classes = useStyles();
         const location = useLocation();
         const navigate = useNavigate()
@@ -121,25 +121,29 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
         const lessonType = match ? match.uri.split("/")[1] : null;
 
         const hasPreviousCard = () => {
-            const isTargetLanguageRussian = lessons.targetLanguage === LANGUAGES.RUSSIAN;
-            const isFirstWord = lessons.currentWord === 0;
-            const isFirstCard = lessons.currentLesson && lessons.lessons[0] && lessons.currentLesson.id === lessons.lessons[0].id
+            const isTargetLanguageRussian = lessonsStore.targetLanguage === LANGUAGES.RUSSIAN;
+            const isFirstWord = lessonsStore.currentWord === 0;
+            const isFirstCard = lessonsStore.currentLesson
+                && lessonsStore.lessons[0]
+                && lessonsStore.currentLesson.id === lessonsStore.lessons[0].id
             return !(isTargetLanguageRussian && isFirstWord && isFirstCard);
         }
 
         const hasNextCard = () => {
-            const isTargetLanguageDeutsch = lessons.targetLanguage === LANGUAGES.DEUTSCH;
-            const isLastWord = lessons.currentLesson && lessons.currentWord === lessons.currentLesson.words.length - 1;
-            const isLastCard = lessons.currentLesson && lessons.currentLesson.id === lessons.lessons[lessons.lessons.length - 1].id;
-            const isTargetVisible = lessons.isTargetVisible;
+            const isTargetLanguageDeutsch = lessonsStore.targetLanguage === LANGUAGES.DEUTSCH;
+            const isLastWord = lessonsStore.currentLesson
+                && lessonsStore.currentWord === lessonsStore.currentLesson.words.length - 1;
+            const isLastCard = lessonsStore.currentLesson
+                && lessonsStore.currentLesson.id === lessonsStore.lessons[lessonsStore.lessons.length - 1].id;
+            const isTargetVisible = lessonsStore.isTargetVisible;
             return !(isTargetVisible && isTargetLanguageDeutsch && isLastWord && isLastCard);
         }
 
         const isWordLast = () =>
-            lessons.currentLesson.words.length - 1 === lessons.currentWord;
+            lessonsStore.currentLesson.words.length - 1 === lessonsStore.currentWord;
 
         const isWordFirst = () =>
-            lessons.currentWord === 0;
+            lessonsStore.currentWord === 0;
 
         const scrollToBottom = () => {
             const scrollingElement = (document.scrollingElement || document.body);
@@ -147,7 +151,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
         }
 
         const nextWord = () => {
-            if (!lessons.isTargetVisible) {
+            if (!lessonsStore.isTargetVisible) {
                 showTranslation();
                 if (lessonType === LESSON_TYPES.TABLE) {
                     nextWord();
@@ -155,26 +159,26 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                 }
             } else {
                 if (isWordLast() && hasNextCard()) {
-                    if (lessons.targetLanguage === LANGUAGES.DEUTSCH) {
+                    if (lessonsStore.targetLanguage === LANGUAGES.DEUTSCH) {
                         const nextId = (
-                            parseInt(lessons.currentLesson.id, 10) + 1
+                            parseInt(lessonsStore.currentLesson.id, 10) + 1
                         ).toString();
-                        lessons.changeCard(nextId);
+                        lessonsStore.changeCard(nextId);
                         sendEvent(GAActions.CARD_FINISHED, {
-                            current: lessons.currentLesson.id,
+                            current: lessonsStore.currentLesson.id,
                         });
                         return;
                     }
-                    lessons.switchLanguage();
-                    lessons.currentWord = 0;
-                    lessons.isTargetVisible = false;
+                    lessonsStore.switchLanguage();
+                    lessonsStore.currentWord = 0;
+                    lessonsStore.isTargetVisible = false;
                     return;
                 }
                 if (hasNextCard()) {
-                    lessons.currentWord = lessons.currentWord + 1;
-                    lessons.isTargetVisible = false;
+                    lessonsStore.currentWord = lessonsStore.currentWord + 1;
+                    lessonsStore.isTargetVisible = false;
                     sendEvent(GAActions.NEXT_WORD, {
-                        current: lessons.currentLesson.words[lessons.currentWord],
+                        current: lessonsStore.currentLesson.words[lessonsStore.currentWord],
                     });
                 }
             }
@@ -184,15 +188,15 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
             if (!hasPreviousCard()) return;
             if (isWordFirst() && hasPreviousCard()) {
                 const previousId = (
-                    parseInt(lessons.currentLesson.id, 10) - 1
+                    parseInt(lessonsStore.currentLesson.id, 10) - 1
                 ).toString();
-                lessons.changeCard(previousId);
+                lessonsStore.changeCard(previousId);
                 return;
             }
-            lessons.isTargetVisible = false;
-            lessons.currentWord = lessons.currentWord - 1;
+            lessonsStore.isTargetVisible = false;
+            lessonsStore.currentWord = lessonsStore.currentWord - 1;
             sendEvent(GAActions.PREVIOUS_WORD, {
-                current: lessons.currentLesson.words[lessons.currentWord],
+                current: lessonsStore.currentLesson.words[lessonsStore.currentWord],
             });
         };
 
@@ -205,9 +209,9 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
         };
 
         const showTranslation = () => {
-            lessons.isTargetVisible = true;
+            lessonsStore.isTargetVisible = true;
             sendEvent(GAActions.SHOW_TRANSLATION, {
-                language: lessons.targetLanguage,
+                language: lessonsStore.targetLanguage,
             });
         };
 
@@ -215,14 +219,14 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
             window.onkeydown = handleArrowKeyboard;
             if (match) {
                 const paths = match.uri.split("/");
-                if (lessons.changeCard(paths[2])) {
+                if (lessonsStore.changeCard(paths[2])) {
                     sendEvent(GAActions.CARD_OPENED);
                 }
             }
             init(true);
         }
 
-        if (!lessons.currentLesson.words[lessons.currentWord]) {
+        if (!lessonsStore.currentLesson.words[lessonsStore.currentWord]) {
             navigate('/')
             return null;
         }
@@ -243,13 +247,13 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                     <div className={classes.actionsWrapper}>
                         <div className={classes.actions}>
                             {hasPreviousCard() && <div
-                                className={classnames(classes.leftChevron, classes.chevron)}
+                                className={cn(classes.leftChevron, classes.chevron)}
                                 onClick={previousWord}
                             >
                                 <ChevronLeftIcon/>
                             </div>}
                             {hasNextCard() && <div
-                                className={classnames(classes.rightChevron, classes.chevron)}
+                                className={cn(classes.rightChevron, classes.chevron)}
                                 onClick={nextWord}
                             >
                                 <ChevronRightIcon/>
@@ -275,7 +279,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {lessons.currentLesson.words.map((row: any, index: number) => {
+                                    {lessonsStore.currentLesson.words.map((row: any, index: number) => {
                                         return (
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.german}>
                                                 {columns.map((column) => {
@@ -284,25 +288,25 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                                                         <TableCell key={column.id}
                                                                    style={{width: row.width, minHeight: 50}}
                                                                    size={"small"}>
-                                                            {lessons.currentWord > index && value}
-                                                            {lessons.currentWord === index &&
+                                                            {lessonsStore.currentWord > index && value}
+                                                            {lessonsStore.currentWord === index &&
                                                             <>
                                                                 {
-                                                                    lessons.targetLanguage === LANGUAGES.DEUTSCH &&
+                                                                    lessonsStore.targetLanguage === LANGUAGES.DEUTSCH &&
                                                                     (column.id === LANGUAGES.DEUTSCH &&
-                                                                        !lessons.isTargetVisible ? (
+                                                                        !lessonsStore.isTargetVisible ? (
                                                                             <div
-                                                                                className={classnames(classes.relativeEye)}
+                                                                                className={cn(classes.relativeEye)}
                                                                                 onClick={showTranslation}>
                                                                                 <VisibilityIcon/>
                                                                             </div>
                                                                         ) : value
                                                                     )
                                                                 }
-                                                                {lessons.targetLanguage === LANGUAGES.RUSSIAN &&
+                                                                {lessonsStore.targetLanguage === LANGUAGES.RUSSIAN &&
                                                                 (column.id === LANGUAGES.RUSSIAN &&
-                                                                    !lessons.isTargetVisible ? (
-                                                                        <div className={classnames(classes.relativeEye)}
+                                                                    !lessonsStore.isTargetVisible ? (
+                                                                        <div className={cn(classes.relativeEye)}
                                                                              onClick={showTranslation}>
                                                                             <VisibilityIcon/>
                                                                         </div>
@@ -326,20 +330,20 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                             <CardContent className={classes.cardContent}>
                                 <Typography variant="h5" className={classes.text}>
                                     <div
-                                        className={classnames({
+                                        className={cn({
                                             [classes.invisible]: !(
-                                                lessons.targetLanguage === LANGUAGES.RUSSIAN ||
-                                                (lessons.targetLanguage === LANGUAGES.DEUTSCH &&
-                                                    lessons.isTargetVisible)
+                                                lessonsStore.targetLanguage === LANGUAGES.RUSSIAN ||
+                                                (lessonsStore.targetLanguage === LANGUAGES.DEUTSCH &&
+                                                    lessonsStore.isTargetVisible)
                                             ),
                                         })}
                                     >
-                                        {`${lessons.currentWord + 1}. ${
-                                            lessons.currentLesson.words[lessons.currentWord].german
+                                        {`${lessonsStore.currentWord + 1}. ${
+                                            lessonsStore.currentLesson.words[lessonsStore.currentWord].german
                                         }`}
                                     </div>
-                                    {lessons.targetLanguage === LANGUAGES.DEUTSCH &&
-                                    !lessons.isTargetVisible && (
+                                    {lessonsStore.targetLanguage === LANGUAGES.DEUTSCH &&
+                                    !lessonsStore.isTargetVisible && (
                                         <div className={classes.eye} onClick={showTranslation}>
                                             <VisibilityIcon/>
                                         </div>
@@ -348,20 +352,20 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                                 <Divider/>
                                 <Typography variant="h5" className={classes.text}>
                                     <div
-                                        className={classnames({
+                                        className={cn({
                                             [classes.invisible]: !(
-                                                lessons.targetLanguage === LANGUAGES.DEUTSCH ||
-                                                (lessons.targetLanguage === LANGUAGES.RUSSIAN &&
-                                                    lessons.isTargetVisible)
+                                                lessonsStore.targetLanguage === LANGUAGES.DEUTSCH ||
+                                                (lessonsStore.targetLanguage === LANGUAGES.RUSSIAN &&
+                                                    lessonsStore.isTargetVisible)
                                             ),
                                         })}
                                     >
-                                        {`${lessons.currentWord + 1}. ${
-                                            lessons.currentLesson.words[lessons.currentWord].russian
+                                        {`${lessonsStore.currentWord + 1}. ${
+                                            lessonsStore.currentLesson.words[lessonsStore.currentWord].russian
                                         }`}
                                     </div>
-                                    {lessons.targetLanguage === LANGUAGES.RUSSIAN &&
-                                    !lessons.isTargetVisible && (
+                                    {lessonsStore.targetLanguage === LANGUAGES.RUSSIAN &&
+                                    !lessonsStore.isTargetVisible && (
                                         <div className={classes.eye} onClick={showTranslation}>
                                             <VisibilityIcon/>
                                         </div>

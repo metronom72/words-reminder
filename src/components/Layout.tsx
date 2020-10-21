@@ -9,7 +9,7 @@ import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import classnames from "classnames";
+import cn from "classnames";
 import moment from "moment";
 import Chip from "@material-ui/core/Chip";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -79,8 +79,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export const Layout: React.FC<any> = inject("lessons")(
-    observer(({lessons, children}) => {
+export const Layout: React.FC<any> = inject("lessonsStore")(
+    observer(({lessonsStore, children}) => {
         const classes = useStyles();
         const location = useLocation();
         const match = useMatch(location.pathname);
@@ -110,11 +110,11 @@ export const Layout: React.FC<any> = inject("lessons")(
         }
 
         const switchLanguage = () => {
-            lessons.switchLanguage();
+            lessonsStore.switchLanguage();
         };
 
         const nextCard = (id: string) => () => {
-            if (lessons.changeCard(id)) {
+            if (lessonsStore.changeCard(id)) {
                 sendEvent(GAActions.NEXT_CARD);
             }
             setMobileOpen(false);
@@ -138,7 +138,7 @@ export const Layout: React.FC<any> = inject("lessons")(
                             onChange={switchLanguage}
                         />
                     </ListItem>
-                    {lessons.lessons.map(
+                    {lessonsStore.lessons.map(
                         ({title, id}: { title: string; id: string }) => (
                             <Link
                                 onClick={nextCard(id)}
@@ -149,8 +149,8 @@ export const Layout: React.FC<any> = inject("lessons")(
 
                                 {isDone(title) && (
                                     <ListItem
-                                        className={classnames({
-                                            [classes.active]: lessons.currentLesson.id === id,
+                                        className={cn({
+                                            [classes.active]: lessonsStore.currentLesson.id === id,
                                         })}
                                         button
                                         key={id}
@@ -158,7 +158,7 @@ export const Layout: React.FC<any> = inject("lessons")(
                                         <ListItemText
                                             primary={
                                                 <div>
-                                                    {title}{" "}
+                                                    {id}. {title}{" "}
                                                     {isDone(title) && (
                                                         <Chip
                                                             label={getLessonLabel(title)}
@@ -194,14 +194,14 @@ export const Layout: React.FC<any> = inject("lessons")(
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" noWrap>
-                            {lessons.currentLesson.title} (
-                            {lessons.currentLesson.words.length} ) слов
+                            {lessonsStore.currentLesson.title} (
+                            {lessonsStore.currentLesson.words.length} ) слов
                         </Typography>
                         <NumInput/>
                         <Link
-                            onClick={nextCard(lessons.currentLesson.id)}
-                            key={lessons.currentLesson.id}
-                            to={`${lessonType === LESSON_TYPES.SINGLE_CARD ? "tables" : "lessons"}/${lessons.currentLesson.id}`}
+                            onClick={nextCard(lessonsStore.currentLesson.id)}
+                            key={lessonsStore.currentLesson.id}
+                            to={`${lessonType === LESSON_TYPES.SINGLE_CARD ? "tables" : "lessons"}/${lessonsStore.currentLesson.id}`}
                             className={classes.switchViewLink}
                         >
                             {lessonType === LESSON_TYPES.SINGLE_CARD ? "Табличный вид" : "Просмотр карточек"}
