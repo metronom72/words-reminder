@@ -22,6 +22,7 @@ import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
 import {sendEvent} from "../config/GoogleAnalytics";
 import {GAActions, LESSON_TYPES} from "../config/Constants";
+import {NumInput} from "./NumInput";
 
 const drawerWidth: number = 240;
 
@@ -196,6 +197,7 @@ export const Layout: React.FC<any> = inject("lessons")(
                             {lessons.currentLesson.title} (
                             {lessons.currentLesson.words.length} ) слов
                         </Typography>
+                        <NumInput/>
                         <Link
                             onClick={nextCard(lessons.currentLesson.id)}
                             key={lessons.currentLesson.id}
