@@ -162,7 +162,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                     if (lessonsStore.targetLanguage === LANGUAGES.DEUTSCH) {
                         const nextId = (
                             parseInt(lessonsStore.currentLesson.id, 10) + 1
-                        ).toString();
+                        );
                         lessonsStore.changeCard(nextId);
                         sendEvent(GAActions.CARD_FINISHED, {
                             current: lessonsStore.currentLesson.id,
@@ -189,7 +189,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
             if (isWordFirst() && hasPreviousCard()) {
                 const previousId = (
                     parseInt(lessonsStore.currentLesson.id, 10) - 1
-                ).toString();
+                );
                 lessonsStore.changeCard(previousId);
                 return;
             }
@@ -219,7 +219,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
             window.onkeydown = handleArrowKeyboard;
             if (match) {
                 const paths = match.uri.split("/");
-                if (lessonsStore.changeCard(paths[2])) {
+                if (lessonsStore.changeCard(parseInt(paths[2], 10))) {
                     sendEvent(GAActions.CARD_OPENED);
                 }
             }
