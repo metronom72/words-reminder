@@ -22,7 +22,7 @@ import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
 import {sendEvent} from "../config/GoogleAnalytics";
 import {DEFAULT_FRAME_LENGTH, GAActions, LESSON_TYPES} from "../config/Constants";
-import {NumInput} from "./NumInput";
+import {Box, TextField} from '@material-ui/core';
 
 const drawerWidth: number = 240;
 
@@ -76,6 +76,15 @@ const useStyles = makeStyles((theme) => ({
     switchViewLink: {
         color: 'white',
         justifySelf: "flex-end"
+    },
+    textFieldBox: {
+        padding: '5px',
+        background: 'white',
+        margin: '5px 0',
+        borderRadius: '5px',
+    },
+    linkBox: {
+        marginLeft: '5px'
     }
 }));
 
@@ -191,15 +200,24 @@ export const Layout: React.FC<any> = inject("lessonsStore")(
                             {lessonsStore.currentLesson.title} (
                             {lessonsStore.currentLesson.words.length} ) слов
                         </Typography>
-                        <NumInput/>
-                        <Link
-                            onClick={nextCard(lessonsStore.currentLesson.id)}
-                            key={lessonsStore.currentLesson.id}
-                            to={`${lessonType === LESSON_TYPES.SINGLE_CARD ? "tables" : "lessons"}/${lessonsStore.currentLesson.id}`}
-                            className={classes.switchViewLink}
-                        >
-                            {lessonType === LESSON_TYPES.SINGLE_CARD ? "Табличный вид" : "Просмотр карточек"}
-                        </Link>
+                        <Box className={cn(classes.textFieldBox)}>
+                            <TextField
+                                variant="outlined"
+                                size="small"
+                                value={lessonsStore.lastLearnedLessonId}
+                                onChange={(event) => lessonsStore.setLastLearnedId(event.target.value)}
+                            />
+                        </Box>
+                        <Box className={cn(classes.linkBox)}>
+                            <Link
+                                onClick={nextCard(lessonsStore.currentLesson.id)}
+                                key={lessonsStore.currentLesson.id}
+                                to={`${lessonType === LESSON_TYPES.SINGLE_CARD ? "tables" : "lessons"}/${lessonsStore.currentLesson.id}`}
+                                className={classes.switchViewLink}
+                            >
+                                {lessonType === LESSON_TYPES.SINGLE_CARD ? "Табличный вид" : "Просмотр карточек"}
+                            </Link>
+                        </Box>
                     </Toolbar>
                 </AppBar>
                 <nav className={classes.drawer}>
