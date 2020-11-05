@@ -24,20 +24,20 @@ da,здесь,общая лексика
 gern,охотно,общая лексика
 gut,хорошо,общая лексика
 immer,всегда,общая лексика
-das Kind,ребенок,семья
-der Mann,мужчина,семья
-die Mutter,мать,семья
+das Kind (-inder),ребенок,семья
+der Mann (-änner),мужчина,семья
+die Mutter (-ütter),мать,семья
 nah,близко,общая лексика
 sagen,сказать,общая лексика
-die Schwester,сестра,семья
+die Schwester (-n),сестра,семья
 stehen,стоять,общая лексика
-die Tante,тетя,семья
-der Tisch,стол,жилье
+die Tante (-n),тетя,семья
+der Tisch (-e),стол,жилье
 unten,внизу,общая лексика
-die Vase,ваза,жилье
-der Vater,отец,семья
+die Vase (-n),ваза,жилье
+der Vater (-äter),отец,семья
 warten,ждать,общая лексика
-das Zimmer,комната,жилье
+das Zimmer (-),комната,жилье
 zusammen,вместе,общая лексика
 er fragt,он спрашивает,общая лексика
 es sagt,оно говорит,общая лексика
@@ -45,10 +45,10 @@ diser,этот,общая лексика
 antworten,отвечать,общая лексика
 bestimmt,конечно,общая лексика
 dort und hier,там и здесь,общая лексика
-das Gespräch,разговор,языки
+das Gespräch (-e),разговор,языки
 jetzt und immer,теперь и всегда,общая лексика
 kommen,приходить,общая лексика
-das Geld,деньги,покупки
+das Geld (-er),деньги,покупки
 ich,я,общая лексика
 ihr,вы,общая лексика
 mehr als Geld,больше чем деньги,покупки
@@ -56,54 +56,54 @@ oben,наверху,общая лексика
 oft,часто,общая лексика
 rechnen,считать,общая лексика
 rufen,звать,общая лексика
-der Sohn,сын,семья
-die Straße,улица,город
+der Sohn (-öhne),сын,семья
+die Straße (-n),улица,город
 suchen,искать,общая лексика
 morgen,завтра,время
 noch Bier,еще пива,общая лексика
 oder dieser oder jener,или этот или тот,общая лексика
 rechts,справа,общая лексика
 schon,уже,общая лексика
-der Tag,день,время
-die Tochter,дочь,семья
+der Tag (-e),день,время
+die Tochter (-öchter),дочь,семья
 vier,четыре,общая лексика
 wohnen,жить,общая лексика
-der Besuch,гости,гости
+der Besuch (-e),гости,гости
 richtig,правильно,общая лексика
 wir gehen zu Besuch,мы идем в гости,гости
 er fragt nicht mehr,он больше не спрашивает,общая лексика
 er kommt nach Odessa,он едет в Одессу,путешествия
-die Arbeit,работа,трудовая деятельность
+die Arbeit (-en),работа,трудовая деятельность
 arbeiten,работать,трудовая деятельность
 auch,также,общая лексика
-die Aufgabe,задание,город
+die Aufgabe (-n),задание,город
 bald,скоро,общая лексика
 bereit,готов,общая лексика
 bitte,пожалуйста,общая лексика
 bleiben,оставаться,общая лексика
-das Buch,книга,образование
+das Buch (-ücher),книга,образование
 denn,разве,общая лексика
 doch,ведь,общая лексика
 drei,три,общая лексика
 faul,ленивый,общая лексика
 fertig,готов,общая лексика
 fleißig,прилежный,общая лексика
-die Frau,женщина,семья
+die Frau (-en),женщина,семья
 froh,радостный,общая лексика
 ganz,совсем,общая лексика
 groß,большой,общая лексика
-das Haus,дом,жилье
-das Heft,тетрадь,покупки
+das Haus -äuser,дом,жилье
+das Heft -e,тетрадь,покупки
 die Karte,карта,покупки
 lächeln,улыбаться,общая лексика
 leicht,легко,общая лексика
-der Lehrer,учитель,образование
+der Lehrer -,учитель,образование
 lernen,учить,образование
 machen,делать,общая лексика
-die Mappe,портфель,покупки
+die Mappe -n,портфель,покупки
 rot,красный,общая лексика
 nein,нет,общая лексика
-die Regel,правило,образование
+die Regel -n,правило,образование
 schreiben,писать,общая лексика
 schwer,трудный,общая лексика
 die Uhr,часы,время
@@ -895,9 +895,9 @@ der Schal (-s),шарф,
 der Schuh (-e),ботинок,
 das Hemd (en),рубашка,
 das Kleid (-er),платье,
-die Bluse (n),блузка,
+die Bluse (-n),блузка,
 die Hose (-n),штаны,
-die Jacke (n),куртка,
+die Jacke (-n),куртка,
 die Kleidung (-),одежда,
 die Mütze (-n),шапка,
 die Socke (-n),носок,
@@ -916,10 +916,11 @@ der Schnurrbart (-bärte),усы,
 das Haar (-e),волос,
 die Figur (-en),фигура,
 die Haut (-äute),кожа,
-die Lippe,губка,
-die Nase,нос,
+die Lippe (-n),губка,
+die Nase (-n),нос,
 schlank,стройный,
 vollschlank,полный,
+das Gesicht (-er),лицо,
 schmal,узкий (лицо),
 dünn,узкие (губы),
 schulterlang,до плеч (волосы),
@@ -936,7 +937,7 @@ feiern,праздновать,
 die Zeit verbringen,проводить время,
 die Prüfung (-en),экзамен,
 die Tafel (-n),доска,
-das Thema,тема,
+das Thema (-en),тема,
 bestehen aus,состоять из,
 fehlen,отсутствовать,
 Platz nehmen,"садиться, занимать место",
@@ -944,35 +945,35 @@ mündlich,устно,
 schriftlich,письменно,
 dauern,продолжаться,
 enden,заканчиваться,
-der Löffel,ложка,
-der Senf,горчица,
+der Löffel (-),ложка,
+der Senf (-e),горчица,
 die Gabel (-n),вилка,
-die Soße,соус,
-die Speise,блюдо,
-das Messer,нож,
-das Salz,соль,
-das Trinkgeld,чаевые,
+die Soße (-n),соус,
+die Speise (-n),блюдо,
+das Messer (-),нож,
+das Salz (-e),соль,
+das Trinkgeld (-er),чаевые,
 bestellen,заказывать,
 wüschen,желать,
 nach + Dat,после,
 zahlen,платить,
 Stimmt so,сдачи не надо,
 danken für + Akk,благодарить за,
-die Rechnung,счет,
-der Bahnhof,вокзал,
-der Flughafen,аэропорт,
-der Markt,рынок,
-die Apotheke,аптека,
-die Bank,банк,
-die Haltestelle,остановка,
-die Kirche,церковь,
-die Post,почта,
-das Krankenhaus,больница,
-die Straßenbahn,трамвай,
-die S-Bahn,городская электричка,
-das Schiff,корабль,
+die Rechnung (-en),счет,
+der Bahnhof (-höfe),вокзал,
+der Flughafen (-häfen),аэропорт,
+der Markt (-ärkte),рынок,
+die Apotheke (-n),аптека,
+die Bank (-änke),банк,
+die Haltestelle (-n),остановка,
+die Kirche (-n),церковь,
+die Post (-),почта,
+das Krankenhaus (-häuser),больница,
+die Straßenbahn (-en),трамвай,
+die S-Bahn (-en),городская электричка,
+das Schiff (-e),корабль,
 nach dem Aufstehen,после подъема,
-der Briefkasten,почтовый ящик,
+der Briefkasten (-kästen),почтовый ящик,
 aus dem Haus gehen,выходить из дома,
 bei schönem Wetter,в хорошую погоду,
 checken,проверять (эл. почту),
@@ -1003,20 +1004,20 @@ Krise erleben,переживать кризис,
 wissenschaftlich Labor,научная лаборатория,
 Museen schaffen,создавать музеи,
 das undenkbar,это невообразимо,
-der Bergbau,горное дело,
+der Bergbau (-es),горное дело,
 under die Erde gehen,спускатсья под землю,
 der Maschinenlärm,машинный зал,
-das Wrack,остаток,
+das Wrack (-s),остаток,
 gehören zu,входить в,
 hübsch,красивый,
 irgendwie gefällt er mir nicht,мне он как-то не равится,
 sicher,раверняка,
-der Spiegel,зеркало,
+der Spiegel (-),зеркало,
 die Sendungen im Fernsehen,передача по телевизору,
 beim Schreiben,при письмо,
-der Körper,тело,
-die Hose,брюки,
-der Stiefel,сапог,
+der Körper (-),тело,
+die Hose (-n),брюки,
+der Stiefel (-),сапог,
 nicht wahr,не так ли?,
 erwidern,отвечать,
 viel Spaß,приятно проводить время,
@@ -1051,20 +1052,20 @@ zwingen,принуждать,
 beginnen,начинать,
 gewinnen,"вигрывать, добывать",
 schwimmen,плавать,
-der Bezirk,район,
-der Fahrradweg,велосипедная дорожка,
-der Fußweg,тротуар,
-der Stadtplan,"план, карта города",
-die Ampfel,светофор,
-die Brücke,мост,
-die Kreuzung,перекресток,
-die Linie,"линия, маршрут транспорта",
-die Richtung,направление,
-die Seite,сторона,
-das Rathaus,ратуша,
-das Schloss,замок,
+der Bezirk (-e),район,
+der Fahrradweg (-e),велосипедная дорожка,
+der Fußweg (-e),тротуар,
+der Stadtplan (-pläne),"план, карта города",
+die Ampel (-n),светофор,
+die Brücke (-n),мост,
+die Kreuzung (-en),перекресток,
+die Linie (-n),"линия, маршрут транспорта",
+die Richtung (-en),направление,
+die Seite(-n),сторона,
+das Rathaus (-häuser),ратуша,
+das Schloss (-lösser),замок,
 das Ticket,билет,
-das Tor,ворота,
+das Tor (-e),ворота,
 geradeaus,прямо,
 auf der linken Seite,на левой стороне,
 nicht weit,не далеко,
@@ -1077,22 +1078,22 @@ die Sache (-n),вещь,
 einschlafen,засыпать,
 anmachen,включать,
 anziehen,надевать,
-der Schal,шарф,
-der Bahnsteig,платформа,
-der Fahrgast,пассажир,
-der Fahrplan,расписание,
-der Platz,место (сидение),
-der Schaffner,проводник,
-der Schalter,окошко (кассы),
-der Schlafwagen,спальный вагон,
-der Wagen,вагон,
-die Abfahrt,отъезд (отправление),
-die Ankunft,прибытие,
-die Fahrt,"поездка, езда",
-die Station,станция,
-die Verspätung,опоздание,
-das Abteil,купе,
-das Gleis,железнодорожный путь,
+der Schal (-s),шарф,
+der Bahnsteig (-e),платформа,
+der Fahrgast (-gäste),пассажир,
+der Fahrplan (-pläne),расписание,
+der Platz (-lätze),место (сидение),
+der Schaffner (-),проводник,
+der Schalter (-),окошко (кассы),
+der Schlafwagen (-wägen),спальный вагон,
+der Wagen (-wägen),вагон,
+die Abfahrt (-en),отъезд (отправление),
+die Ankunft (-künfte),прибытие,
+die Fahrt (-en),"поездка, езда",
+die Station (-en),станция,
+die Verspätung (-en),опоздание,
+das Abteil (-e),купе,
+das Gleis (-e),железнодорожный путь,
 abfahren,"отправляться, отъезжать",
 ankommen,прибывать,
 der Aquapark (-s),аквапарк,
@@ -1114,29 +1115,29 @@ der Fluss (-üsse),река,
 Das macht mir Spaß,Это доставляет мне удовольствие,
 in der Sonne liegen,загорать,
 anfangen,начинать,
-der Anfang,начало,
-der Verband,объединени,
+der Anfang (-fänge),начало,
+der Verband (-bände),объединени,
 verbinden,связывать,
 bauen,строить,
-der Bau,строительство,
+der Bau (-es),строительство,
 fahren,едать,
-die Fahrt,поездка,
+die Fahrt (-en),поездка,
 stehen,стоять,
-der Stand,расположение,
+der Stand (-tände),расположение,
 gehen,идти,
-der Gang,походка,
+der Gang (-änge),походка,
 kalt,холодный,
-die Kälte,холод,
+die Kälte (-),холод,
 lang,длинный,
-die Länge,длина,
+die Länge (-n),длина,
 blau,ситий,
-das Blau,синева,
+das Blau (-s),синева,
 fünf,пять,
-die Fünf,пятерка,
+die Fünf (-en),пятерка,
 heute,сегодня,
 das Heute,настоящее время,
 reisend,путешествующий,
-der Reisende,путешественник,
+der Reisende (-n),путешественник,
 lesen,читать,
 das Lesen,чтение,
 singen,петь,
@@ -1148,7 +1149,7 @@ der Alte,старик,
 die Alte,старуха,
 das Alte,старое,
 bekannt,знакомый,
-der Bekannte,знакомый,
+der Bekannte (-n),знакомый,
 etwas Bekanntes,чтото знакомое,
 nichts Neues,ничего нового,
 bedienen,обслуживать,
@@ -1183,26 +1184,26 @@ gleich,подобный,
 ungleich,непохожий,
 gewöhnlich,обычно,
 ungewöhnlich,необычно,
-der Mensch,человек,
-der Urmensch,первобытный человек,
+der Mensch (-en),человек,
+der Urmensch (-en),первобытный человек,
 der Wald (-Wälder),лес,
-der Urwald,девственный лес,
-die Urgroßmutter,прабабушка,
-die Umwelt,первобытный мир,
-der Urzustand,первобытное состояние,
-das Urvolk,первобытный народ,
-die Urzeit,первобытное время,
-die Ursprache,первобытный язык,
-der Zustand,состояние,
-der Urtext,каноничный текст,
-die Ernte,урожай,
-die Missernte,неурожай,
+der Urwald (-älder),девственный лес,
+die Urgroßmutter (-mütter),прабабушка,
+die Umwelt (-),первобытный мир,
+der Urzustand (-ände),первобытное состояние,
+das Urvolk (-ölker),первобытный народ,
+die Urzeit (-),первобытное время,
+die Ursprache (-n),первобытный язык,
+der Zustand (-ände),состояние,
+der Urtext (-e),каноничный текст,
+die Ernte (-n),урожай,
+die Missernte (-n),неурожай,
 verstehen,понимать,
 missverstehen,неправильно понимать,
-der Erfolg,успех,
-der Misserfolg,неуспех,
-die Bildung,образование,
-die Missbildung,отсутствие образования,
+der Erfolg (-e),успех,
+der Misserfolg (-e),неуспех,
+die Bildung (-en),образование,
+die Missbildung (-en),отсутствие образования,
 die Wirtschaft,хозяйство,
 die Misswirtschaft,бесхозяйственность,
 achten,уважать,
@@ -1422,8 +1423,8 @@ das Waschbecken -,умывальник (раковина),
 der Lärm,шум,
 die Treppe hochgehen,подниматься по лестнице,
 die Treppe runtergehen,спускаться по лестнице,
-tapeziert,объклеенный обоями,
-die Couchtisch -e,эурнальный столик,
+tapeziert,обклеенный обоями,
+die Couchtisch -e,журнальный столик,
 Wir haben uns lange nicht gesehen.,давно не виделись,
 Mach's gut!,Счастливо! Удачи!,
 Viel Erfolg!,Успехов!,
