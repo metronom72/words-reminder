@@ -205,6 +205,8 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                 previousWord();
             } else if (event.code === "ArrowRight") {
                 nextWord();
+            } else if (event.code === "Space") {
+                showTranslation();
             }
         };
 
@@ -287,7 +289,8 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                                                     return (
                                                         <TableCell key={column.id}
                                                                    style={{width: row.width, minHeight: 50}}
-                                                                   size={"small"}>
+                                                                   size={"small"}
+                                                                   onClick={showTranslation}>
                                                             {lessonsStore.currentWord > index && value}
                                                             {lessonsStore.currentWord === index &&
                                                             <>
@@ -296,8 +299,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                                                                     (column.id === LANGUAGES.DEUTSCH &&
                                                                         !lessonsStore.isTargetVisible ? (
                                                                             <div
-                                                                                className={cn(classes.relativeEye)}
-                                                                                onClick={showTranslation}>
+                                                                                className={cn(classes.relativeEye)}>
                                                                                 <VisibilityIcon/>
                                                                             </div>
                                                                         ) : value
@@ -328,7 +330,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                         {lessonType === LESSON_TYPES.SINGLE_CARD &&
                         <Card className={classes.card} variant="outlined">
                             <CardContent className={classes.cardContent}>
-                                <Typography variant="h5" className={classes.text}>
+                                <Typography variant="h5" className={classes.text} onClick={showTranslation}>
                                     <div
                                         className={cn({
                                             [classes.invisible]: !(
@@ -344,13 +346,13 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                                     </div>
                                     {lessonsStore.targetLanguage === LANGUAGES.DEUTSCH &&
                                     !lessonsStore.isTargetVisible && (
-                                        <div className={classes.eye} onClick={showTranslation}>
+                                        <div className={classes.eye}>
                                             <VisibilityIcon/>
                                         </div>
                                     )}
                                 </Typography>
                                 <Divider/>
-                                <Typography variant="h5" className={classes.text}>
+                                <Typography variant="h5" className={classes.text} onClick={showTranslation}>
                                     <div
                                         className={cn({
                                             [classes.invisible]: !(
@@ -366,7 +368,7 @@ export const LessonComponent: React.FC<RouteComponentProps & any> = inject(
                                     </div>
                                     {lessonsStore.targetLanguage === LANGUAGES.RUSSIAN &&
                                     !lessonsStore.isTargetVisible && (
-                                        <div className={classes.eye} onClick={showTranslation}>
+                                        <div className={classes.eye}>
                                             <VisibilityIcon/>
                                         </div>
                                     )}

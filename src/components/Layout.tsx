@@ -208,10 +208,14 @@ export const Layout: React.FC<any> = inject("lessonsStore")(
                                 onChange={(event) => lessonsStore.setLastLearnedId(event.target.value)}
                             />
                         </Box>
+                        <Box>
+                            <Typography>
+                                Загрузить новые слова
+                            </Typography>
+                        </Box>
                         <Box className={cn(classes.linkBox)}>
                             <Link
                                 onClick={nextCard(lessonsStore.currentLesson.id)}
-                                key={lessonsStore.currentLesson.id}
                                 to={`${lessonType === LESSON_TYPES.SINGLE_CARD ? "tables" : "lessons"}/${lessonsStore.currentLesson.id}`}
                                 className={classes.switchViewLink}
                             >
