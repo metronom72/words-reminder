@@ -1,5 +1,5 @@
 // @ts-ignore
-import words from "./words.csv"
+import words from "./aspekte.b1.csv"
 import {ILesson, IWord} from "../store/Lessons";
 import moment from "moment";
 
@@ -7,7 +7,7 @@ const lessons: ILesson[] = [];
 // const today = new Date("10/13/2020").getTime();
 let offset = 0;
 // const day = 24 * 60 * 60 * 1000;
-const wordsLimit = 19;
+const wordsLimit = 59;
 let lastWordsLimit = wordsLimit;
 let lastId = 1;
 
